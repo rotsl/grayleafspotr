@@ -12,7 +12,7 @@ Description: Self-contained gray leaf spot analysis and plotting tools for RStud
   via an ARM64 Python 3.11 environment, writes raw JSON and CSV exports, and
   provides template ggplot2 visuals for downstream exploration.
 License: Apache License (>= 2.0) | file LICENSE
-URL: https://github.com/rotsl/R-Grayleafspot
+URL: https://rotsl.github.io/R-Grayleafspot, https://github.com/rotsl/R-Grayleafspot
 BugReports: https://github.com/rotsl/R-Grayleafspot/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
