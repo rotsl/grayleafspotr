@@ -2,7 +2,7 @@
 # Install into an ARM64 Python 3.11 virtual environment (rvenv_arm_311).
 #
 # Setup:
-#   cd R-Grayleafspot
+#   cd grayleafspotr
 #   /opt/homebrew/bin/python3.11 -m venv rvenv_arm_311
 #   source rvenv_arm_311/bin/activate
 #   python -m pip install -U pip

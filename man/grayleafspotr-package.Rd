@@ -12,9 +12,9 @@ The package is intended to be used from RStudio and developed with devtools.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://rotsl.github.io/R-Grayleafspot}
-  \item \url{https://github.com/rotsl/R-Grayleafspot}
-  \item Report bugs at \url{https://github.com/rotsl/R-Grayleafspot/issues}
+  \item \url{https://rotsl.github.io/grayleafspotr}
+  \item \url{https://github.com/rotsl/grayleafspotr}
+  \item Report bugs at \url{https://github.com/rotsl/grayleafspotr/issues}
 }
 
 }

@@ -1,4 +1,4 @@
-url: https://rotsl.github.io/R-Grayleafspot/
+url: https://rotsl.github.io/grayleafspotr/
 
 template:
   bootstrap: 5
@@ -16,7 +16,7 @@ navbar:
   components:
     github:
       icon: fab fa-github
-      href: https://github.com/rotsl/R-Grayleafspot
+      href: https://github.com/rotsl/grayleafspotr
       aria-label: GitHub
 
 reference:
@@ -58,4 +58,4 @@ articles:
 news:
   releases:
   - text: grayleafspotr 1.0.0
-    href: https://github.com/rotsl/R-Grayleafspot/releases/tag/v1.0.0
+    href: https://github.com/rotsl/grayleafspotr/releases/tag/v1.0.0

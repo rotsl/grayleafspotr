@@ -4,7 +4,7 @@
 used directly from RStudio. The public interface is R, while the analysis
 pipeline runs through the bundled Python pipeline.
 
-The package is self-contained inside `R-Grayleafspot/`. When you open the
+The package is self-contained inside `grayleafspotr/`. When you open the
 project in RStudio, that folder is the working root for the package, example
 data, models, notebooks, and outputs.
 
@@ -92,7 +92,7 @@ The model is fetched from
 
 ### 1. Open the package in RStudio
 
-Open `R-Grayleafspot/grayleafspotr.Rproj` in RStudio. That makes the package
+Open `grayleafspotr/grayleafspotr.Rproj` in RStudio. That makes the package
 folder the working root.
 
 ### 2. Install the R tooling
@@ -139,7 +139,7 @@ arm64
 1. Create the virtual environment:
 
 ```bash
-cd R-Grayleafspot
+cd grayleafspotr
 /opt/homebrew/bin/python3.11 -m venv rvenv_arm_311
 ```
 
@@ -183,7 +183,7 @@ Important notes:
 Point the package at the interpreter with:
 
 ```r
-Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/Users/wot25kir/grayleafspot/R-Grayleafspot/rvenv_arm_311/bin/python")
+Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/Users/wot25kir/grayleafspot/grayleafspotr/rvenv_arm_311/bin/python")
 ```
 
 ## RStudio Workflow
@@ -240,8 +240,8 @@ The package accepts any folder of plate images. Common formats include:
 When working from this repo, you can use the sample images in:
 
 ```text
-R-Grayleafspot/input_images/06FEB
-R-Grayleafspot/input_images/30JAN
+grayleafspotr/input_images/06FEB
+grayleafspotr/input_images/30JAN
 ```
 
 To analyze your own data, point `input_dir` at your image folder.
@@ -252,10 +252,10 @@ If you restart RStudio, run these lines first so the package uses the correct
 Python environment for the main pipeline:
 
 ```r
-setwd("/Users/wot25kir/grayleafspot/R-Grayleafspot")
-Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/Users/wot25kir/grayleafspot/R-Grayleafspot/rvenv_arm_311/bin/python")
+setwd("/Users/wot25kir/grayleafspot/grayleafspotr")
+Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/Users/wot25kir/grayleafspot/grayleafspotr/rvenv_arm_311/bin/python")
 options(grayleafspotr.python = NULL)
-devtools::load_all("/Users/wot25kir/grayleafspot/R-Grayleafspot")
+devtools::load_all("/Users/wot25kir/grayleafspot/grayleafspotr")
 grayleafspot_python_executable(engine_model = "localunet")
 grayleafspot_python_available(engine_model = "localunet")
 ```
@@ -299,7 +299,7 @@ run$results[, c("filename", "day", "area_mm2", "diameter_mm", "crack_count", "qc
 ### Where outputs go
 
 If you set `output_dir = "outputs"`, the package writes a new run folder inside
-`R-Grayleafspot/outputs/` by default.
+`grayleafspotr/outputs/` by default.
 
 A saved run contains:
 
@@ -459,12 +459,12 @@ Python. Verify with:
 The package includes a notebook-style walkthrough at:
 
 ```text
-R-Grayleafspot/notebooks/grayleafspotr_workflow.Rmd
+grayleafspotr/notebooks/grayleafspotr_workflow.Rmd
 ```
 
 ### How to run it in RStudio
 
-1. Open `R-Grayleafspot/grayleafspotr.Rproj`.
+1. Open `grayleafspotr/grayleafspotr.Rproj`.
 2. Open `notebooks/grayleafspotr_workflow.Rmd`.
 3. Run the first chunk, which sets:
 
@@ -489,7 +489,7 @@ so the document still renders cleanly.
 The notebook writes analysis outputs to:
 
 ```text
-R-Grayleafspot/outputs
+grayleafspotr/outputs
 ```
 
 The `outputs/figures/` subfolder is where the saved PNG plots go.

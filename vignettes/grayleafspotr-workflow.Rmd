@@ -14,7 +14,7 @@ library(grayleafspotr)
 
 ## 1. Load the package
 
-Open `R-Grayleafspot/grayleafspotr.Rproj` in RStudio for the source workflow,
+Open `grayleafspotr/grayleafspotr.Rproj` in RStudio for the source workflow,
 or install the package and load it with `library(grayleafspotr)`.
 
 ## 2. Confirm the example data

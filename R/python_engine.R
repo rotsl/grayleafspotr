@@ -3,7 +3,7 @@ grayleafspot_python_module_dir <- function() {
   if (nzchar(module_dir)) {
     return(module_dir)
   }
-  for (candidate in c(file.path("inst", "python"), file.path("R-Grayleafspot", "inst", "python"))) {
+  for (candidate in c(file.path("inst", "python"), file.path("grayleafspotr", "inst", "python"))) {
     if (dir.exists(candidate)) {
       return(normalizePath(candidate, winslash = "/", mustWork = FALSE))
     }
@@ -17,7 +17,7 @@ grayleafspot_package_root <- function() {
     if (nzchar(module_dir)) normalizePath(dirname(module_dir), winslash = "/", mustWork = FALSE) else "",
     if (nzchar(module_dir)) normalizePath(dirname(dirname(module_dir)), winslash = "/", mustWork = FALSE) else "",
     getwd(),
-    file.path(getwd(), "R-Grayleafspot")
+    file.path(getwd(), "grayleafspotr")
   )))
   for (candidate in candidates) {
     if (file.exists(file.path(candidate, "DESCRIPTION"))) {
@@ -62,7 +62,7 @@ grayleafspot_python_executable <- function(python = NULL, engine_model = "localu
     Sys.getenv("GRAYLEAFSPOTR_PYTHON", unset = ""),
     getOption("grayleafspotr.python"),
     file.path("rvenv_arm_311", "bin", "python"),
-    file.path("R-Grayleafspot", "rvenv_arm_311", "bin", "python"),
+    file.path("grayleafspotr", "rvenv_arm_311", "bin", "python"),
     Sys.which("python3"),
     Sys.which("python")
   )
