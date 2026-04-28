@@ -26,9 +26,11 @@ Imports:
   readr,
   tibble,
   png
+biocViews: Software, Preprocessing, Visualization
 Suggests:
   knitr,
   rmarkdown,
+  pkgdown,
   magick,
   jpeg,
   tiff,

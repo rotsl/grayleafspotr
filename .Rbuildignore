@@ -12,3 +12,5 @@
 ^dev$
 ^notebooks$
 ^\.github$
+^_pkgdown\.yml$
+^NOTICE$

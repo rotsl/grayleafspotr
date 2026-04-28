@@ -1,0 +1,61 @@
+url: https://rotsl.github.io/R-Grayleafspot/
+
+template:
+  bootstrap: 5
+
+home:
+  title: grayleafspotr
+  description: >
+    Gray leaf spot analysis from RStudio — SmallUNet segmentation pipeline,
+    tidy results, and template ggplot2 visualisations.
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [github]
+  components:
+    github:
+      icon: fab fa-github
+      href: https://github.com/rotsl/R-Grayleafspot
+      aria-label: GitHub
+
+reference:
+  - title: Analysis pipeline
+    desc: Run the SmallUNet segmentation pipeline on plate images.
+    contents:
+      - grayleafspot_analyze
+      - grayleafspot_download_model
+      - grayleafspot_python_available
+      - grayleafspot_python_executable
+
+  - title: Results I/O
+    desc: Load, save, and convert run results.
+    contents:
+      - read_grayleafspot_results
+      - write_grayleafspot_results
+      - as_grayleafspot_growth_data
+      - example_grayleafspot_results
+
+  - title: Plots
+    desc: Template ggplot2 visualisations — all return a ggplot object.
+    contents:
+      - plot_colony_expansion
+      - plot_growth_roughness
+      - plot_stress_remodeling
+      - plot_texture_organization
+      - plot_shape_vs_stress
+      - plot_radial_growth_area
+      - plot_feature_heatmap
+      - plot_radial_profile
+
+articles:
+  - title: Get started
+    navbar: ~
+    contents:
+      - getting-started
+      - grayleafspotr-workflow
+
+news:
+  releases:
+  - text: grayleafspotr 1.0.0
+    href: https://github.com/rotsl/R-Grayleafspot/releases/tag/v1.0.0
