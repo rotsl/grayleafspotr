@@ -21,6 +21,7 @@ outputs/
 archives/
 figure/
 figures/
+!man/figures/
 
 # Model files (large binary assets)
 models/
@@ -37,3 +38,4 @@ input_images/20260204_P001_30JAN_WT_PCBM_CTRL_d05_TOP.JPG
 
 # Temporary image builds
 grayleafspot-image-*/
+.positai

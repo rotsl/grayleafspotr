@@ -46,27 +46,53 @@ plot_radial_profile(example_run)
 
 ## 5. Run the Python analysis pipeline on real images
 
-Set `GRAYLEAFSPOTR_PYTHON` to the `rvenv_arm_311` interpreter before running:
+### One-time Python setup
+
+Add the interpreter path to `~/.Rprofile` so it loads automatically
+every time R starts:
+
+```r
+file.edit("~/.Rprofile")
+# Add this line (adjust path to your rvenv_arm_311 location):
+# Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/path/to/rvenv_arm_311/bin/python")
+```
+
+Or set it for the current session only:
 
 ```r
 Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/path/to/rvenv_arm_311/bin/python")
 ```
 
+### Run with `grayleafspot_run()` — the primary entry point
+
+`grayleafspot_run()` finds the installed package Python directory automatically,
+creates the output folder if needed, and returns parsed JSON results directly.
+
 ```{r, eval=FALSE}
-if (grayleafspot_python_available(engine_model = "localunet")) {
-  testdata_dir <- system.file("extdata", "testdata", "06FEB", package = "grayleafspotr")
-  real_run <- grayleafspot_analyze(
-    input_dir = testdata_dir,
-    output_dir = tempdir(),
-    save_outputs = FALSE,
-    verbose = FALSE,
-    engine_model = "localunet"
-  )
-  real_run$run
-  real_run$results
-} else {
-  message("Python ML dependencies are not installed; reusing the example run.")
-}
+res <- grayleafspot_run(
+  input_dir  = system.file("extdata", "testdata", "06FEB", package = "grayleafspotr"),
+  output_dir = file.path(tempdir(), "gls_run"),
+  run_name   = "trial_01"
+)
+
+# Access results
+res$run       # manifest metadata
+res$results   # per-image data frame
+```
+
+### Full-featured alternative: `grayleafspot_analyze()`
+
+For tidy S3 objects with built-in plotting helpers, use `grayleafspot_analyze()`:
+
+```{r, eval=FALSE}
+real_run <- grayleafspot_analyze(
+  input_dir  = system.file("extdata", "testdata", "06FEB", package = "grayleafspotr"),
+  output_dir = tempdir(),
+  save_outputs = FALSE,
+  verbose      = FALSE,
+  engine_model = "localunet"
+)
+plot_colony_expansion(real_run)
 ```
 
 ## 6. Convert to tidy data

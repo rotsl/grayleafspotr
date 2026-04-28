@@ -3,6 +3,12 @@ url: https://rotsl.github.io/grayleafspotr/
 template:
   bootstrap: 5
 
+figures:
+  dev: ragg::agg_png
+  dpi: 96
+
+logo: man/figures/logo.png
+
 home:
   title: grayleafspotr
   description: >
@@ -23,6 +29,7 @@ reference:
   - title: Analysis pipeline
     desc: Run the SmallUNet segmentation pipeline on plate images.
     contents:
+      - grayleafspot_run
       - grayleafspot_analyze
       - grayleafspot_download_model
       - grayleafspot_python_available

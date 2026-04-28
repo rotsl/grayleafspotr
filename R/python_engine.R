@@ -283,3 +283,105 @@ grayleafspot_analyze <- function(
   }
   run
 }
+
+#' Run the gray leaf spot pipeline — simplified entry point
+#'
+#' A streamlined wrapper around the SmallUNet pipeline designed for everyday
+#' use.  Unlike [grayleafspot_analyze()], this function:
+#'
+#' * reads the Python interpreter from `GRAYLEAFSPOTR_PYTHON` (fail-fast with
+#'   a clear message if it is not set),
+#' * creates `output_dir` automatically if it does not exist,
+#' * returns the raw parsed JSON payload so you can work with results directly.
+#'
+#' ## One-time Python setup
+#'
+#' Set the environment variable once per session, or add it to `~/.Rprofile`
+#' so it is loaded automatically every time R starts:
+#'
+#' ```r
+#' # In ~/.Rprofile  (open with file.edit("~/.Rprofile"))
+#' Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/path/to/rvenv_arm_311/bin/python")
+#' ```
+#'
+#' @param input_dir Character. Path to the folder containing plate images.
+#' @param output_dir Character. Directory to write outputs into (created if
+#'   absent).
+#' @param run_name Character. Human-readable label appended to the timestamped
+#'   run folder name (default `"run"`).
+#' @param engine_model Character. Must be `"localunet"` (the only supported
+#'   pipeline).
+#' @param plate_diameter_mm Numeric. Known petri dish diameter in mm (default
+#'   90).
+#' @return A named list parsed directly from the pipeline JSON output,
+#'   containing `$results` (per-image records) and `$run` (manifest metadata).
+#' @seealso [grayleafspot_analyze()] for the full-featured interface that
+#'   returns a `grayleafspot_run` S3 object with tidy plotting helpers.
+#' @export
+grayleafspot_run <- function(input_dir,
+                             output_dir,
+                             run_name      = "run",
+                             engine_model  = "localunet",
+                             plate_diameter_mm = 90) {
+  if (!requireNamespace("grayleafspotr", quietly = TRUE)) {
+    stop("Package 'grayleafspotr' is not installed.")
+  }
+
+  python_bin <- Sys.getenv("GRAYLEAFSPOTR_PYTHON")
+  if (!nzchar(python_bin)) {
+    stop(
+      "GRAYLEAFSPOTR_PYTHON is not set.\n",
+      "Add the following line to ~/.Rprofile (open with file.edit(\"~/.Rprofile\")):\n",
+      "  Sys.setenv(GRAYLEAFSPOTR_PYTHON = \"/path/to/rvenv_arm_311/bin/python\")"
+    )
+  }
+  if (!file.exists(python_bin)) {
+    stop("Configured Python path does not exist: ", python_bin)
+  }
+
+  if (!dir.exists(input_dir)) {
+    stop("Input directory does not exist: ", input_dir)
+  }
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+  }
+
+  pkg_python_dir <- system.file("python", package = "grayleafspotr")
+  if (!nzchar(pkg_python_dir)) {
+    stop("Could not locate the grayleafspotr Python module directory.")
+  }
+
+  raw <- system2(
+    python_bin,
+    args = c(
+      "-m", "pipeline.cli",
+      "--input-dir",          normalizePath(input_dir,  winslash = "/", mustWork = FALSE),
+      "--output-dir",         normalizePath(output_dir, winslash = "/", mustWork = FALSE),
+      "--plate-diameter-mm",  as.character(plate_diameter_mm),
+      "--engine-model",       engine_model,
+      "--run-name",           run_name,
+      "--json"
+    ),
+    env = c(
+      paste0("PYTHONPATH=",    pkg_python_dir),
+      paste0("MPLCONFIGDIR=",  file.path(tempdir(), "grayleafspotr-mpl")),
+      "PYTHONUNBUFFERED=1"
+    ),
+    stdout = TRUE,
+    stderr = FALSE
+  )
+
+  status <- attr(raw, "status")
+  if (!is.null(status) && !identical(status, 0L)) {
+    stop("Pipeline failed with exit status ", status, ".\nOutput:\n",
+         paste(raw, collapse = "\n"))
+  }
+
+  tryCatch(
+    jsonlite::fromJSON(paste(raw, collapse = "\n"), simplifyVector = TRUE),
+    error = function(e) {
+      stop("Pipeline ran but JSON parsing failed.\nRaw output:\n",
+           paste(raw, collapse = "\n"))
+    }
+  )
+}

@@ -16,3 +16,7 @@ BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
 PackageRoxygenize: rd,collate,namespace
+
+PythonType: virtualenv
+PythonVersion: 3.11.14
+PythonPath: rvenv_arm_311/bin/python

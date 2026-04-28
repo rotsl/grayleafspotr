@@ -1,4 +1,9 @@
-# Gray Leaf Spot for RStudio
+# grayleafspotr <img src="man/figures/logo.png" align="right" height="139" alt="grayleafspotr logo" />
+
+[![packages status badge](https://rotsl.r-universe.dev/badges/:packages)](https://rotsl.r-universe.dev/packages)
+[![registry status badge](https://rotsl.r-universe.dev/badges/:registry)](https://rotsl.r-universe.dev/)
+[![articles status badge](https://rotsl.r-universe.dev/badges/:articles)](https://rotsl.r-universe.dev/articles)
+[![R-universe downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Frotsl.r-universe.dev%2Fapi%2Fpackages%2Fgrayleafspotr&query=%24._downloads.count&label=downloads&suffix=%20last%20month&color=blue)](https://rotsl.r-universe.dev/grayleafspotr)
 
 `grayleafspotr` is a standalone R package for gray leaf spot analysis that is
 used directly from RStudio. The public interface is R, while the analysis
@@ -529,7 +534,8 @@ Recommended sequence while developing:
 
 | Function | Description |
 | --- | --- |
-| `grayleafspot_analyze()` | Run the SmallUNet pipeline on a folder of images |
+| `grayleafspot_run()` | **Primary entry point** — run pipeline, return parsed JSON |
+| `grayleafspot_analyze()` | Full-featured pipeline returning an S3 `grayleafspot_run` object |
 | `grayleafspot_python_available()` | Check that the six ML modules are importable |
 | `grayleafspot_python_executable()` | Return the resolved Python interpreter path |
 | `grayleafspot_download_model()` | Download `best_area_w_0.7.pt` from HuggingFace |
@@ -546,18 +552,47 @@ Recommended sequence while developing:
 | `plot_feature_heatmap()` | Pearson correlation heatmap |
 | `plot_radial_profile()` | Radial intensity profile |
 
-## Example Data
-
-The folder `inst/extdata/example/` contains a tiny example run that you can use
-to explore the plotting helpers before running analysis on your own images.
-
 ## Quick Start
+
+### Explore without running the pipeline
 
 ```r
 library(grayleafspotr)
 run <- example_grayleafspot_results()
 plot_colony_expansion(run)
 ```
+
+### Run the pipeline on your images
+
+**Step 1 — one-time Python setup.** Add this line to `~/.Rprofile` so it
+loads automatically every time R starts:
+
+```r
+file.edit("~/.Rprofile")
+# Add:
+# Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/path/to/rvenv_arm_311/bin/python")
+```
+
+**Step 2 — run:**
+
+```r
+library(grayleafspotr)
+
+res <- grayleafspot_run(
+  input_dir  = "images",
+  output_dir = "outputs",
+  run_name   = "trial_01"
+)
+```
+
+`grayleafspot_run()` automatically finds the installed package Python
+directory, creates `output_dir` if needed, and returns the parsed JSON
+results. No hardcoded paths required.
+
+## Example Data
+
+The folder `inst/extdata/example/` contains a tiny example run that you can use
+to explore the plotting helpers before running analysis on your own images.
 
 ## Release Notes
 
