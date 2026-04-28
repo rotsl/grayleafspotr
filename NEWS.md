@@ -1,6 +1,6 @@
 # grayleafspotr News
 
-## grayleafspotr 1.0.0
+## grayleafspotr 0.99.0
 
 Initial release.
 
