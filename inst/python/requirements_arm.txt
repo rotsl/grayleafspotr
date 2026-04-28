@@ -1,0 +1,21 @@
+# Minimal requirements for inst/python/pipeline/analysislocal.py (SmallUNet pipeline).
+# Install into an ARM64 Python 3.11 virtual environment (rvenv_arm_311).
+#
+# Setup:
+#   cd R-Grayleafspot
+#   /opt/homebrew/bin/python3.11 -m venv rvenv_arm_311
+#   source rvenv_arm_311/bin/activate
+#   python -m pip install -U pip
+#   python -m pip install -r inst/python/requirements_arm.txt
+#
+# This does NOT include SAM, segmentation-models-pytorch, or albumentations,
+# which are only required by the legacy pipeline (inst/python/requirements.txt).
+
+numpy==2.4.4
+opencv-python==4.13.0.92
+pillow==12.2.0
+scipy==1.17.1
+scikit-image==0.26.0
+torch==2.11.0
+torchvision==0.26.0
+python-dotenv==1.2.2

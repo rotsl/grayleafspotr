@@ -1,0 +1,14 @@
+^README\.md$
+^.*\.Rproj$
+^\.Rproj\.user$
+^figure$
+^notebooks/grayleafspotr_workflow\.md$
+^vignettes/.*\.md$
+^notebooks/.*\.md$
+^rvenv_arm_311$
+^input_images$
+^outputs$
+^models$
+^dev$
+^notebooks$
+^\.github$

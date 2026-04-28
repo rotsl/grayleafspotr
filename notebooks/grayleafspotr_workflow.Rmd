@@ -1,0 +1,106 @@
+---
+title: "grayleafspotr Workflow Notebook"
+output:
+  html_notebook:
+    toc: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+## 1. Load the package
+
+```{r}
+pkg_root <- if (file.exists("DESCRIPTION")) "." else ".."
+Sys.setenv(GRAYLEAFSPOTR_PYTHON = file.path(pkg_root, "rvenv_arm_311", "bin", "python"))
+options(grayleafspotr.python = NULL)
+files <- list.files(file.path(pkg_root, "R"), pattern = "[.]R$", full.names = TRUE)
+for (f in files) source(f)
+grayleafspot_python_executable(engine_model = "localunet")
+grayleafspot_python_available(engine_model = "localunet")
+```
+
+## 2. Confirm the example data
+
+```{r}
+example_dir <- file.path(pkg_root, "inst", "extdata", "example")
+list.files(example_dir)
+```
+
+## 3. Load saved example results
+
+```{r}
+example_run <- read_grayleafspot_results(example_dir)
+example_run$run
+example_run$results
+```
+
+## 4. Generate template plots from the example run
+
+```{r}
+plot_colony_expansion(example_run)
+plot_growth_roughness(example_run)
+plot_stress_remodeling(example_run)
+plot_texture_organization(example_run)
+plot_shape_vs_stress(example_run)
+plot_feature_heatmap(example_run)
+plot_radial_profile(example_run)
+```
+
+## 5. Run the Python analysis pipeline on a real image folder
+
+```{r}
+if (grayleafspot_python_available(engine_model = "localunet")) {
+  real_run <- grayleafspot_analyze(
+    input_dir = file.path(pkg_root, "input_images", "06FEB"),
+    output_dir = file.path(pkg_root, "outputs"),
+    filenames = c(
+      "20260210_P001_06-FEB_WT_PCBM_SUB_d04_TOP.jpg",
+      "20260212_P001_06-FEB_WT_PCBM_SUB_d06_TOP.jpg",
+      "20260216_P001_06-FEB_WT_PCBM_SUB_d10_TOP.jpg"
+    ),
+    save_outputs = TRUE,
+    verbose = FALSE,
+    engine_model = "localunet"
+  )
+  real_run$run
+  real_run$results
+} else {
+  message("Python ML dependencies are not installed, so this step reuses the example run.")
+  real_run <- example_run
+  real_run$run
+  real_run$results
+}
+```
+
+## 6. Inspect a saved analysis run
+
+```{r}
+saved_run <- read_grayleafspot_results(real_run$run$outputDir)
+saved_run$run
+saved_run$results
+```
+
+## 7. Convert the run to tidy data
+
+```{r}
+growth_data <- as_grayleafspot_growth_data(example_run)
+growth_data
+```
+
+## 8. Custom plotting
+
+```{r}
+plot_colony_expansion(example_run) +
+  ggplot2::labs(title = "Custom colony expansion view")
+```
+
+## 9. Clean up notebook outputs
+
+```{r}
+if (dir.exists(file.path(pkg_root, "outputs"))) {
+  unlink(file.path(pkg_root, "outputs"), recursive = TRUE, force = TRUE)
+}
+```

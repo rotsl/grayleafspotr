@@ -1,0 +1,111 @@
+[
+  {
+    "id": "demo-1",
+    "filename": "demo_day1.png",
+    "day": 1,
+    "pixelToMm": 0.1,
+    "morphology": {
+      "areaMm2": 12.0,
+      "equivalentRadiusMm": 1.95,
+      "diameterMm": 3.90,
+      "perimeterMm": 8.00,
+      "circularity": 0.80,
+      "eccentricity": 0.20,
+      "edgeRoughness": 0.10
+    },
+    "texture": {
+      "contrast": 0.20,
+      "correlation": 0.10,
+      "energy": 0.30,
+      "homogeneity": 0.40,
+      "entropy": 1.20,
+      "centerToEdgeDelta": 0.05,
+      "densityIndex": 0.80,
+      "radialZonation": {
+        "core": 0.10,
+        "middle": 0.20,
+        "outer": 0.30
+      }
+    },
+    "cracks": {
+      "count": 0,
+      "totalLengthMm": 0.0,
+      "coveragePct": 0.0,
+      "proportionalCoveragePct": 0.0,
+      "internalBandSummary": "Example data only."
+    },
+    "kinematics": {
+      "radialVelocity": 0.0,
+      "areaGrowthRate": 0.0,
+      "relativeGrowthRate": 0.0,
+      "radialAcceleration": 0.0
+    },
+    "qcStatus": "pass",
+    "qcNotes": "ok",
+    "rawAnalysis": {
+      "radial_profile": {
+        "radiusFraction": [0.0, 1.0],
+        "radiusMm": [0.0, 1.95],
+        "meanIntensity": [0.2, 0.8],
+        "ringSpacingMm": 0.2,
+        "centerToEdgeDelta": 0.05,
+        "densityIndex": 0.8
+      }
+    }
+  },
+  {
+    "id": "demo-2",
+    "filename": "demo_day2.png",
+    "day": 2,
+    "pixelToMm": 0.1,
+    "morphology": {
+      "areaMm2": 18.0,
+      "equivalentRadiusMm": 2.39,
+      "diameterMm": 4.78,
+      "perimeterMm": 9.10,
+      "circularity": 0.77,
+      "eccentricity": 0.22,
+      "edgeRoughness": 0.12
+    },
+    "texture": {
+      "contrast": 0.24,
+      "correlation": 0.11,
+      "energy": 0.33,
+      "homogeneity": 0.42,
+      "entropy": 1.10,
+      "centerToEdgeDelta": 0.06,
+      "densityIndex": 0.81,
+      "radialZonation": {
+        "core": 0.11,
+        "middle": 0.21,
+        "outer": 0.31
+      }
+    },
+    "cracks": {
+      "count": 1,
+      "totalLengthMm": 0.2,
+      "coveragePct": 2.5,
+      "proportionalCoveragePct": 2.5,
+      "internalBandSummary": "Example data only."
+    },
+    "kinematics": {
+      "radialVelocity": 0.44,
+      "areaGrowthRate": 6.0,
+      "relativeGrowthRate": 0.40,
+      "radialAcceleration": 0.44
+    },
+    "qcStatus": "pass",
+    "qcNotes": "ok",
+    "rawAnalysis": {
+      "radial_profile": {
+        "radiusFraction": [0.0, 1.0],
+        "radiusMm": [0.0, 2.39],
+        "meanIntensity": [0.22, 0.79],
+        "ringSpacingMm": 0.2,
+        "centerToEdgeDelta": 0.06,
+        "densityIndex": 0.81
+      }
+    }
+  }
+]
+

@@ -1,0 +1,84 @@
+---
+title: "grayleafspotr Workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{grayleafspotr Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(grayleafspotr)
+```
+
+## 1. Load the package
+
+Open `R-Grayleafspot/grayleafspotr.Rproj` in RStudio for the source workflow,
+or install the package and load it with `library(grayleafspotr)`.
+
+## 2. Confirm the example data
+
+```{r}
+example_dir <- system.file("extdata", "example", package = "grayleafspotr")
+list.files(example_dir)
+```
+
+## 3. Load saved example results
+
+```{r}
+example_run <- example_grayleafspot_results()
+example_run$run
+example_run$results
+```
+
+## 4. Generate template plots
+
+```{r}
+plot_colony_expansion(example_run)
+plot_growth_roughness(example_run)
+plot_stress_remodeling(example_run)
+plot_texture_organization(example_run)
+plot_shape_vs_stress(example_run)
+plot_feature_heatmap(example_run)
+plot_radial_profile(example_run)
+```
+
+## 5. Run the Python analysis pipeline on real images
+
+Set `GRAYLEAFSPOTR_PYTHON` to the `rvenv_arm_311` interpreter before running:
+
+```r
+Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/path/to/rvenv_arm_311/bin/python")
+```
+
+```{r, eval=FALSE}
+if (grayleafspot_python_available(engine_model = "localunet")) {
+  testdata_dir <- system.file("extdata", "testdata", "06FEB", package = "grayleafspotr")
+  real_run <- grayleafspot_analyze(
+    input_dir = testdata_dir,
+    output_dir = tempdir(),
+    save_outputs = FALSE,
+    verbose = FALSE,
+    engine_model = "localunet"
+  )
+  real_run$run
+  real_run$results
+} else {
+  message("Python ML dependencies are not installed; reusing the example run.")
+}
+```
+
+## 6. Convert to tidy data
+
+```{r}
+growth_data <- as_grayleafspot_growth_data(example_run)
+growth_data
+```
+
+## 7. Custom plotting
+
+```{r}
+plot_colony_expansion(example_run) +
+  ggplot2::labs(title = "Custom colony expansion view")
+```

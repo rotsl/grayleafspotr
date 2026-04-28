@@ -1,0 +1,4 @@
+id,filename,day,area_mm2,radius_mm,diameter_mm,perimeter_mm,circularity,eccentricity,edge_roughness,contrast,correlation,energy,homogeneity,entropy,center_edge_delta,density_index,core,middle,outer,crack_count,crack_length_mm,crack_coverage_pct,proportional_crack_coverage_pct,radial_velocity_mm_per_day,area_growth_rate_mm2_per_day,relative_growth_rate_per_day,radial_acceleration,qc_status,qc_notes
+demo-1,demo_day1.png,1,12.0,1.95,3.90,8.00,0.80,0.20,0.10,0.20,0.10,0.30,0.40,1.20,0.05,0.80,0.10,0.20,0.30,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,pass,ok
+demo-2,demo_day2.png,2,18.0,2.39,4.78,9.10,0.77,0.22,0.12,0.24,0.11,0.33,0.42,1.10,0.06,0.81,0.11,0.21,0.31,1,0.2,2.5,2.5,0.44,6.0,0.40,0.44,pass,ok
+

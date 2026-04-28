@@ -1,0 +1,49 @@
+---
+title: "Getting Started with grayleafspotr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with grayleafspotr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(grayleafspotr)
+```
+
+## Load example results
+
+```{r}
+run <- example_grayleafspot_results()
+run$results
+```
+
+## Make template plots
+
+```{r}
+plot_colony_expansion(run)
+plot_growth_roughness(run)
+plot_stress_remodeling(run)
+plot_texture_organization(run)
+plot_shape_vs_stress(run)
+plot_feature_heatmap(run)
+```
+
+## Run analysis
+
+```{r eval=FALSE}
+grayleafspot_analyze(
+  input_dir = "input_images/06FEB",
+  output_dir = "outputs",
+  run_name = "my_run",
+  engine_model = "localunet"
+)
+```
+
+## Read saved outputs
+
+```{r eval=FALSE}
+read_grayleafspot_results("outputs/20260427T120000Z_localunet")
+```
+

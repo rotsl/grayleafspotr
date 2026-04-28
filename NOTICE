@@ -1,0 +1,33 @@
+grayleafspotr
+Copyright 2026 Rohan R <phonics-tiffs1i@icloud.com>
+
+This product is licensed under the Apache License, Version 2.0.
+See the LICENSE file for the full license text.
+
+-------------------------------------------------------------------------------
+
+Bundled plate images
+  inst/extdata/testdata/06FEB/20260210_P001_06-FEB_WT_PCBM_SUB_d04_TOP.jpg
+  inst/extdata/testdata/06FEB/20260212_P001_06-FEB_WT_PCBM_SUB_d06_TOP.jpg
+  inst/extdata/testdata/06FEB/20260216_P001_06-FEB_WT_PCBM_SUB_d10_TOP.jpg
+
+  Original photographs of gray leaf spot petri dish plates taken by Rohan R.
+  Copyright 2026 Rohan R <phonics-tiffs1i@icloud.com>.
+  Apache License 2.0.
+
+Bundled Python pipeline
+  inst/python/pipeline/analysislocal.py
+  inst/python/pipeline/cli.py
+  inst/python/pipeline/utils.py
+
+  Written by Rohan R.
+  Copyright 2026 Rohan R <phonics-tiffs1i@icloud.com>.
+  Apache License 2.0.
+
+SmallUNet model weights (distributed separately, not bundled)
+  models/best_area_w_0.7.pt
+  https://huggingface.co/rotsl/grayleafspot-segmentation
+
+  Trained by Rohan R.
+  Copyright 2026 Rohan R <phonics-tiffs1i@icloud.com>.
+  Apache License 2.0.

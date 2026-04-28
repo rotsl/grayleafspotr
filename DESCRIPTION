@@ -1,0 +1,37 @@
+Package: grayleafspotr
+Title: Gray Leaf Spot Analysis for RStudio
+Version: 1.0.0
+Authors@R: person(
+  given = "Rohan",
+  family = "R",
+  email = "phonics-tiffs1i@icloud.com",
+  role = c("aut", "cre", "cph")
+ )
+Description: Self-contained gray leaf spot analysis and plotting tools for RStudio.
+  The package runs a SmallUNet segmentation pipeline (models/best_area_w_0.7.pt)
+  via an ARM64 Python 3.11 environment, writes raw JSON and CSV exports, and
+  provides template ggplot2 visuals for downstream exploration.
+License: Apache License (>= 2.0) | file LICENSE
+URL: https://github.com/rotsl/R-Grayleafspot
+BugReports: https://github.com/rotsl/R-Grayleafspot/issues
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends:
+  R (>= 4.1)
+Imports:
+  dplyr,
+  ggplot2,
+  jsonlite,
+  readr,
+  tibble,
+  png
+Suggests:
+  knitr,
+  rmarkdown,
+  magick,
+  jpeg,
+  tiff,
+  testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr

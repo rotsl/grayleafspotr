@@ -1,0 +1,9 @@
+{
+  "id": "example-run",
+  "engine": "python-local",
+  "engineModel": "packaged-python-pipeline",
+  "createdAt": "2026-04-14T12:00:00Z",
+  "outputDir": "inst/extdata/example",
+  "analysisJson": "inst/extdata/example/analysis.json",
+  "analysisCsv": "inst/extdata/example/analysis.csv"
+}

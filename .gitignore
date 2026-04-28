@@ -1,0 +1,39 @@
+# R
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# macOS
+.DS_Store
+
+# Python virtual environments
+rvenv/
+rvenv_arm_311/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Outputs and generated data
+outputs/
+archives/
+figure/
+figures/
+
+# Model files (large binary assets)
+models/
+
+# Notebook outputs
+.notebook-output/
+.notebook-output
+notebooks/*.md
+vignettes/*.md
+
+# Input images — only 06FEB is committed; all other experiment sets are ignored
+input_images/30JAN/
+input_images/20260204_P001_30JAN_WT_PCBM_CTRL_d05_TOP.JPG
+
+# Temporary image builds
+grayleafspot-image-*/
