@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: grayleafspotr
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 3838
+      - key: GRAYLEAFSPOTR_PYTHON
+        value: /opt/grayleafspotr-python/bin/python
+      - key: GRAYLEAFSPOTR_MODEL_URL
+        value: https://huggingface.co/rotsl/grayleafspot-segmentation/resolve/main/best_area_w_0.7.pt
