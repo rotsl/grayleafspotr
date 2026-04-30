@@ -51,4 +51,4 @@ RUN rm -rf /srv/shiny-server/* \
 
 EXPOSE 3838
 
-CMD ["/bin/sh", "-c", "printf 'run_as shiny;\\nserver {\\n  listen %s;\\n  location /healthz {\\n    site_dir /srv/shiny-health;\\n    directory_index on;\\n  }\\n  location / {\\n    app_dir /srv/shiny-server;\\n    log_dir /var/log/shiny-server;\\n  }\\n}\\n' \"${PORT:-3838}\" > /etc/shiny-server/shiny-server.conf && exec /usr/bin/shiny-server"]
+CMD ["/bin/sh", "-c", "printf 'run_as shiny;\\nserver {\\n  listen %s;\\n  location /healthz {\\n    site_dir /srv/shiny-health;\\n    directory_index on;\\n    log_dir /var/log/shiny-server;\\n  }\\n  location / {\\n    app_dir /srv/shiny-server;\\n    log_dir /var/log/shiny-server;\\n  }\\n}\\n' \"${PORT:-3838}\" > /etc/shiny-server/shiny-server.conf && exec /usr/bin/shiny-server"]
