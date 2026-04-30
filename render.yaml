@@ -4,10 +4,8 @@ services:
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    healthCheckPath: /healthz
+    healthCheckPath: /healthz/
     envVars:
-      - key: PORT
-        value: 3838
       - key: GRAYLEAFSPOTR_PYTHON
         value: /opt/grayleafspotr-python/bin/python
       - key: GRAYLEAFSPOTR_MODEL_URL
