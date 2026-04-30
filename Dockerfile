@@ -44,8 +44,8 @@ RUN R CMD INSTALL . \
        fi
 
 RUN rm -rf /srv/shiny-server/* \
-    && cp -R /tmp/grayleafspotr-src/inst/shiny /srv/shiny-server/grayleafspotr \
-    && chown -R shiny:shiny /srv/shiny-server/grayleafspotr
+    && cp -R /tmp/grayleafspotr-src/inst/shiny/. /srv/shiny-server/ \
+    && chown -R shiny:shiny /srv/shiny-server
 
 EXPOSE 3838
 
