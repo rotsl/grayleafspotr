@@ -4,7 +4,7 @@ services:
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    healthCheckPath: /healthz/
+    healthCheckPath: /
     envVars:
       - key: GRAYLEAFSPOTR_PYTHON
         value: /opt/grayleafspotr-python/bin/python

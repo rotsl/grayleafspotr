@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxml2-dev \
     libcurl4-openssl-dev \
     libssl-dev \
+    libuv1 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m venv /opt/grayleafspotr-python \
@@ -45,10 +46,10 @@ RUN R CMD INSTALL . \
 
 RUN rm -rf /srv/shiny-server/* \
     && cp -R /tmp/grayleafspotr-src/inst/shiny/. /srv/shiny-server/ \
-    && mkdir -p /srv/shiny-health \
-    && printf 'ok\n' > /srv/shiny-health/index.html \
-    && chown -R shiny:shiny /srv/shiny-server /srv/shiny-health
+    && chown -R shiny:shiny /srv/shiny-server
 
 EXPOSE 10000
 
-CMD ["/bin/sh", "-c", "printf 'run_as shiny;\\nserver {\\n  listen %s 0.0.0.0;\\n  location /healthz {\\n    site_dir /srv/shiny-health;\\n    directory_index on;\\n    log_dir /var/log/shiny-server;\\n  }\\n  location / {\\n    app_dir /srv/shiny-server;\\n    log_dir /var/log/shiny-server;\\n  }\\n}\\n' \"${PORT:-10000}\" > /etc/shiny-server/shiny-server.conf && exec /usr/bin/shiny-server"]
+USER shiny
+
+CMD ["Rscript", "-e", "port <- as.integer(Sys.getenv('PORT', '10000')); options(shiny.host = '0.0.0.0', shiny.port = port); shiny::runApp('/srv/shiny-server', launch.browser = FALSE)"]
