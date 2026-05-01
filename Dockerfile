@@ -36,7 +36,7 @@ RUN sed \
     && /opt/grayleafspotr-python/bin/pip install --retries 10 --timeout 120 -r /tmp/requirements_render.txt \
     && /opt/grayleafspotr-python/bin/pip install --retries 10 --timeout 120 \
       --extra-index-url https://download.pytorch.org/whl/cpu \
-      torch==2.11.0+cpu
+      torch==2.5.1+cpu
 
 ENV GRAYLEAFSPOTR_PYTHON=/opt/grayleafspotr-python/bin/python
 ARG GRAYLEAFSPOTR_MODEL_URL="https://huggingface.co/rotsl/grayleafspot-segmentation/resolve/main/best_area_w_0.7.pt"
