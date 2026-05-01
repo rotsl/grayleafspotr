@@ -387,6 +387,9 @@ server <- function(input, output, session) {
   persist_run_results <- function(run) {
     run_dir <- resolve_run_dir(run)
     if (is.null(run_dir) || !dir.exists(run_dir)) return(FALSE)
+    session_outputs <- normalizePath(session_output_dir, winslash = "/", mustWork = FALSE)
+    run_dir_norm <- normalizePath(run_dir, winslash = "/", mustWork = FALSE)
+    if (!startsWith(run_dir_norm, paste0(session_outputs, "/"))) return(FALSE)
 
     csv_path <- run$run$analysisCsv %||% run$run$analysis_csv %||% file.path(run_dir, "analysis.csv")
     json_path <- run$run$analysisJson %||% run$run$analysis_json %||% file.path(run_dir, "analysis.json")
