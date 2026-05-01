@@ -1,6 +1,7 @@
 FROM rocker/shiny:4.5.3
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PORT=10000
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
