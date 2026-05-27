@@ -2,6 +2,14 @@
 
 ## grayleafspotr 0.99.0
 
+### Bug fixes
+
+* Corrected column name `crack_coverage` to `crack_coverage_pct` in vignette
+  result subsets to match the actual output column from `read_grayleafspot_results()`
+  (#1).
+* Added `launch_grayleafspotr()` to the pkgdown reference index to resolve a
+  build error when exported topics were absent from `_pkgdown.yml`.
+
 Initial release.
 
 ### Analysis pipeline
