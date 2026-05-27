@@ -55,6 +55,11 @@ reference:
       - plot_feature_heatmap
       - plot_radial_profile
 
+  - title: Shiny app
+    desc: Interactive dashboard for running analyses and exploring results.
+    contents:
+      - launch_grayleafspotr
+
 articles:
   - title: Get started
     navbar: ~

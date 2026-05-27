@@ -133,7 +133,7 @@ example_run <- example_grayleafspot_results()
 
 ```{r}
 example_run$results[, c("filename", "day", "area_mm2", "diameter_mm",
-                         "circularity", "crack_coverage", "qc_status")]
+                         "circularity", "crack_coverage_pct", "qc_status")]
 ```
 
 ### 3.3 Locate bundled source images
