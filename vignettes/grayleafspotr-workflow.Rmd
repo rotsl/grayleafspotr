@@ -1,6 +1,9 @@
 ---
 title: "grayleafspotr Workflow"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{grayleafspotr Workflow}
   %\VignetteEngine{knitr::rmarkdown}
@@ -8,103 +11,317 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.width  = 7,
+  fig.height = 4.5
+)
 library(grayleafspotr)
 ```
 
-## 1. Load the package
+## Abstract
 
-Open `grayleafspotr/grayleafspotr.Rproj` in RStudio for the source workflow,
-or install the package and load it with `library(grayleafspotr)`.
+Gray leaf spot (GLS) is a fungal disease of maize (*Zea mays*) caused by
+*Cercospora zeae-maydis* and *Cercospora zeicola*. In laboratory settings,
+fungal isolates are grown on petri dishes and photographed at successive
+time points to characterise colony expansion, morphology, and structural
+organisation. Manual measurement of these traits is time-consuming and
+operator-dependent.
 
-## 2. Confirm the example data
+`grayleafspotr` provides a fully automated pipeline for quantitative
+phenotyping of GLS colonies from time-lapse plate photographs. The package
+uses a bundled SmallUNet deep-learning segmentation model to identify colonies
+in each image, then extracts morphometric and texture features that describe
+colony growth, shape, and internal organisation over time. The resulting tidy
+data frame can be explored with included template `ggplot2` visualisations or
+passed to any downstream R analysis.
 
-```{r}
-example_dir <- system.file("extdata", "example", package = "grayleafspotr")
-list.files(example_dir)
+Python dependencies are managed automatically through `basilisk`; no manual
+Python environment setup is required.
+
+---
+
+## 1. Package overview
+
+### What the package does
+
+Given a folder of plate photographs, `grayleafspotr`:
+
+1. **Detects the petri dish** boundary using classical circle fitting.
+2. **Segments the colony** inside the dish with a SmallUNet model
+   (`best_area_w_0.7.pt`).
+3. **Extracts per-image features**: area (mm²), equivalent diameter,
+   circularity, eccentricity, edge roughness, crack coverage, texture
+   entropy, and a radial intensity profile.
+4. **Returns a tidy result** object — a `grayleafspot_run` — containing a
+   data frame indexed by filename and imaging day.
+5. **Provides template plots** — one function per figure, all returning
+   `ggplot2` objects ready for further customisation.
+
+### Input requirements
+
+| Requirement | Detail |
+|---|---|
+| Image formats | JPEG, PNG, BMP, TIFF, WEBP |
+| Naming convention | Encode the day with a `d\d+` token: `*_d04_*.jpg` for day 4 |
+| Plate diameter | Standard 90 mm (adjustable via `plate_diameter_mm`) |
+| Folder structure | One folder per experiment; one image per plate per time point |
+
+Example filenames and the day values they produce:
+
+```
+20260210_P001_06-FEB_WT_PCBM_SUB_d04_TOP.jpg  →  day 4
+20260212_P001_06-FEB_WT_PCBM_SUB_d06_TOP.jpg  →  day 6
+20260216_P001_06-FEB_WT_PCBM_SUB_d10_TOP.jpg  →  day 10
 ```
 
-## 3. Load saved example results
+### Workflow at a glance
+
+```
+Plate images (folder)
+        │
+        ▼
+grayleafspot_analyze()  /  grayleafspot_run()
+        │
+        ├─ Dish geometry detection  (classical Hough transform)
+        ├─ SmallUNet segmentation   (best_area_w_0.7.pt)
+        └─ Feature extraction       (area, shape, texture, cracks, radial)
+        │
+        ▼
+grayleafspot_run S3 object
+        │
+        ├─ $results   per-image feature data frame
+        └─ $run       run manifest (paths, timestamp, engine)
+        │
+        ▼
+Template ggplot2 plots  /  tidy data  /  custom analysis
+```
+
+---
+
+## 2. Installation
+
+Install from Bioconductor:
+
+```r
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("grayleafspotr")
+```
+
+Python dependencies (NumPy, OpenCV, PyTorch, scikit-image, etc.) are
+installed automatically by `basilisk` the first time the analysis pipeline is
+invoked. This one-time setup may take a few minutes; subsequent calls use the
+cached environment instantly.
+
+---
+
+## 3. Bundled example data
+
+The package ships three pre-computed example results so that all plotting and
+data-wrangling functions can be explored without running the full pipeline.
+
+### 3.1 Load the example run
 
 ```{r}
 example_run <- example_grayleafspot_results()
-example_run$run
-example_run$results
 ```
 
-## 4. Generate template plots
+### 3.2 Inspect the feature table
+
+```{r}
+example_run$results[, c("filename", "day", "area_mm2", "diameter_mm",
+                         "circularity", "crack_coverage", "qc_status")]
+```
+
+### 3.3 Locate bundled source images
+
+The three plate photographs used to generate this example are also included in
+the package and are accessible via `system.file()`:
+
+```{r}
+image_dir <- system.file("extdata", "testdata", "06FEB", package = "grayleafspotr")
+list.files(image_dir)
+```
+
+---
+
+## 4. Template visualisations
+
+Every plotting function accepts a `grayleafspot_run` object and returns a
+`ggplot2` object that can be customised with standard `ggplot2` calls.
+
+### Colony expansion over time
+
+Colony equivalent diameter (mm) plotted against imaging day.
 
 ```{r}
 plot_colony_expansion(example_run)
+```
+
+### Growth rate and edge roughness
+
+Daily growth increment (mm/day) alongside a measure of colony edge
+irregularity.
+
+```{r}
 plot_growth_roughness(example_run)
+```
+
+### Crack coverage and count
+
+Proportion of the colony mask classified as cracked tissue, alongside the
+total crack count — a proxy for structural stress.
+
+```{r}
 plot_stress_remodeling(example_run)
+```
+
+### Texture organisation
+
+Texture entropy and the centre-to-edge entropy gradient reflect internal
+colony heterogeneity.
+
+```{r}
 plot_texture_organization(example_run)
+```
+
+### Shape versus stress
+
+Eccentricity (0 = circular, 1 = elongated) plotted against crack coverage
+to reveal coupling between morphology and structural remodelling.
+
+```{r}
 plot_shape_vs_stress(example_run)
+```
+
+### Feature correlation heatmap
+
+Pearson correlations between all numeric features.
+
+```{r}
 plot_feature_heatmap(example_run)
+```
+
+### Radial intensity profile
+
+Mean pixel intensity as a function of normalised radial distance from the
+colony centre.
+
+```{r}
 plot_radial_profile(example_run)
 ```
 
-## 5. Run the Python analysis pipeline on real images
+---
 
-### One-time Python setup
+## 5. Work with tidy data
 
-Add the interpreter path to `~/.Rprofile` so it loads automatically
-every time R starts:
-
-```r
-file.edit("~/.Rprofile")
-# Add this line (adjust path to your rvenv_arm_311 location):
-# Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/path/to/rvenv_arm_311/bin/python")
-```
-
-Or set it for the current session only:
-
-```r
-Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/path/to/rvenv_arm_311/bin/python")
-```
-
-### Run with `grayleafspot_run()` — the primary entry point
-
-`grayleafspot_run()` finds the installed package Python directory automatically,
-creates the output folder if needed, and returns parsed JSON results directly.
-
-```{r, eval=FALSE}
-res <- grayleafspot_run(
-  input_dir  = system.file("extdata", "testdata", "06FEB", package = "grayleafspotr"),
-  output_dir = file.path(tempdir(), "gls_run"),
-  run_name   = "trial_01"
-)
-
-# Access results
-res$run       # manifest metadata
-res$results   # per-image data frame
-```
-
-### Full-featured alternative: `grayleafspot_analyze()`
-
-For tidy S3 objects with built-in plotting helpers, use `grayleafspot_analyze()`:
-
-```{r, eval=FALSE}
-real_run <- grayleafspot_analyze(
-  input_dir  = system.file("extdata", "testdata", "06FEB", package = "grayleafspotr"),
-  output_dir = tempdir(),
-  save_outputs = FALSE,
-  verbose      = FALSE,
-  engine_model = "localunet"
-)
-plot_colony_expansion(real_run)
-```
-
-## 6. Convert to tidy data
+Convert the run object to a plain data frame for any downstream workflow:
 
 ```{r}
 growth_data <- as_grayleafspot_growth_data(example_run)
 growth_data
 ```
 
-## 7. Custom plotting
+### Custom plot
+
+Because every template function returns a `ggplot2` object, you can layer
+on additional components:
 
 ```{r}
 plot_colony_expansion(example_run) +
-  ggplot2::labs(title = "Custom colony expansion view")
+  ggplot2::labs(
+    title    = "Colony expansion — 06-FEB experiment",
+    subtitle = "WT strain, PCBM substrate"
+  ) +
+  ggplot2::theme_classic()
+```
+
+---
+
+## 6. Analyze your own images
+
+### 6.1 Prepare your image folder
+
+Place all plate photographs for one experiment in a single directory. The
+filename must contain a `d\d+` token that encodes the imaging day:
+
+```
+my_experiment/
+├── isolate_A_d03_rep1.jpg
+├── isolate_A_d05_rep1.jpg
+├── isolate_A_d07_rep1.jpg
+└── ...
+```
+
+### 6.2 Run the analysis — simple entry point
+
+`grayleafspot_run()` is the recommended entry point for most users. It
+returns the raw JSON payload as a named list.
+
+```{r, eval=FALSE}
+res <- grayleafspot_run(
+  input_dir  = "my_experiment",
+  output_dir = "outputs",
+  run_name   = "isolate_A"
+)
+
+res$results   # per-image feature table (data frame)
+res$run       # run manifest
+```
+
+### 6.3 Full-featured alternative: `grayleafspot_analyze()`
+
+`grayleafspot_analyze()` returns a `grayleafspot_run` S3 object with direct
+access to the template plots:
+
+```{r, eval=FALSE}
+run <- grayleafspot_analyze(
+  input_dir  = "my_experiment",
+  output_dir = "outputs",
+  run_name   = "isolate_A"
+)
+
+plot_colony_expansion(run)
+```
+
+> **Why are these chunks not evaluated?** They require actual plate images
+> on disk and invoke the Python pipeline, which cannot run during package
+> build. The executable examples in sections 3–5 above use the bundled
+> pre-computed results and demonstrate the same data structures and plotting
+> functions.
+
+### 6.4 Reload saved results
+
+Every run writes outputs to a timestamped sub-folder. Reload a previous run
+without re-running the pipeline:
+
+```{r, eval=FALSE}
+run <- read_grayleafspot_results("outputs/20260427T142731Z_localunet")
+plot_colony_expansion(run)
+```
+
+---
+
+## 7. Developer note: Python override
+
+Normal users do not need to configure Python. Developers maintaining a local
+virtual environment (e.g. `rvenv_arm_311`) can bypass basilisk by setting:
+
+```r
+# ~/.Rprofile — developer use only
+Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/path/to/rvenv_arm_311/bin/python")
+```
+
+When `GRAYLEAFSPOTR_PYTHON` is set, the pipeline uses that interpreter
+directly instead of the basilisk-managed environment.
+
+---
+
+## Session information
+
+```{r}
+sessionInfo()
 ```

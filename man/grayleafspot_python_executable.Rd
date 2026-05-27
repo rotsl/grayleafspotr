@@ -16,8 +16,12 @@ grayleafspot_python_executable(python = NULL, engine_model = "localunet")
 Character string: absolute path to the resolved Python executable.
 }
 \description{
+This function is intended for \strong{advanced use only}. Normal users do not need
+to call it — the pipeline resolves its Python environment automatically via
+\code{basilisk}.
+}
+\details{
 Resolves the Python interpreter in this priority order: the \code{python}
 argument, the \code{GRAYLEAFSPOTR_PYTHON} environment variable, the
-\code{grayleafspotr.python} option, \code{rvenv_arm_311/bin/python} relative to the
-working directory, and finally \code{python3} / \code{python} from \code{PATH}.
+\code{grayleafspotr.python} option, and finally \code{python3} / \code{python} from \code{PATH}.
 }

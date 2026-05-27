@@ -7,16 +7,19 @@
 grayleafspot_python_available(python = NULL, engine_model = "localunet")
 }
 \arguments{
-\item{python}{Optional character. Path to a specific Python executable.}
+\item{python}{Optional character. Path to a specific Python executable.
+If \code{NULL} and \code{GRAYLEAFSPOTR_PYTHON} is not set, the basilisk-managed
+environment is assumed available.}
 
 \item{engine_model}{Character. Currently only \code{"localunet"} is supported.}
 }
 \value{
-Logical \code{TRUE} if all required modules are importable, \code{FALSE}
-otherwise.
+Logical \code{TRUE} if the pipeline can run, \code{FALSE} otherwise.
 }
 \description{
-Probes the resolved Python interpreter to confirm that the six modules
-required by the SmallUNet pipeline (numpy, cv2, scipy, skimage, PIL, torch)
-can be imported.
+When the default basilisk-managed environment is in use, this function
+returns \code{TRUE} as long as \code{basilisk} is installed (the environment is
+set up lazily on first pipeline run).  When an explicit Python interpreter
+is configured via \code{GRAYLEAFSPOTR_PYTHON} or the \code{python} argument, the
+function probes that interpreter directly.
 }

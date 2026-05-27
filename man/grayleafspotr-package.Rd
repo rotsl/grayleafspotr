@@ -21,5 +21,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Rohan R \email{phonics-tiffs1i@icloud.com} [copyright holder]
 
+Authors:
+\itemize{
+  \item Rohan R \email{phonics-tiffs1i@icloud.com} [copyright holder]
+}
+
 }
 \keyword{internal}

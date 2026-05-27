@@ -21,6 +21,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--filename", action="append", dest="filenames")
     parser.add_argument("--json", action="store_true", dest="json_output")
     parser.add_argument("--engine-model", default="localunet", choices=["localunet"])
+    parser.add_argument("--model-path", default=None,
+                        help="Absolute path to best_area_w_0.7.pt. "
+                             "Defaults to 'models/best_area_w_0.7.pt' relative to cwd.")
     return parser
 
 
@@ -37,7 +40,8 @@ def main() -> None:
     else:
         images = list(input_dir.glob("**/*"))
         images = [p for p in images if p.suffix.lower() in {".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff", ".webp"}]
-    results = [analysislocal.analyze_image_local(str(img_path), threshold=0.5) for img_path in images]
+    model_path = args.model_path or analysislocal.DEFAULT_MODEL_PATH
+    results = [analysislocal.analyze_image_local(str(img_path), threshold=0.5, model_path=model_path) for img_path in images]
     payload = analysislocal.write_localunet_outputs(results, output_dir, run_name=args.run_name)
     if args.json_output:
         print(json.dumps(payload, default=str))

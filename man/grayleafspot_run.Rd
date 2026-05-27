@@ -18,41 +18,48 @@ grayleafspot_run(
 \item{output_dir}{Character. Directory to write outputs into (created if
 absent).}
 
-\item{run_name}{Character. Human-readable label appended to the timestamped
-run folder name (default \code{"run"}).}
+\item{run_name}{Character. Human-readable label for the run (default
+\code{"run"}).}
 
-\item{engine_model}{Character. Must be \code{"localunet"} (the only supported
-pipeline).}
+\item{engine_model}{Character. Must be \code{"localunet"}.}
 
 \item{plate_diameter_mm}{Numeric. Known petri dish diameter in mm (default
 90).}
 }
 \value{
-A named list parsed directly from the pipeline JSON output,
-containing \verb{$results} (per-image records) and \verb{$run} (manifest metadata).
+A named list parsed from the pipeline JSON output, containing
+\verb{$results} (per-image feature records) and \verb{$run} (manifest metadata).
 }
 \description{
-A streamlined wrapper around the SmallUNet pipeline designed for everyday
-use.  Unlike \code{\link[=grayleafspot_analyze]{grayleafspot_analyze()}}, this function:
+A streamlined wrapper around the SmallUNet pipeline.  Python dependencies
+are resolved automatically via \code{basilisk} — no manual environment setup is
+required.
 }
 \details{
-\itemize{
-\item reads the Python interpreter from \code{GRAYLEAFSPOTR_PYTHON} (fail-fast with
-a clear message if it is not set),
-\item creates \code{output_dir} automatically if it does not exist,
-\item returns the raw parsed JSON payload so you can work with results directly.
+\subsection{Workflow}{
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(grayleafspotr)
+
+res <- grayleafspot_run(
+  input_dir  = "path/to/images",
+  output_dir = "outputs",
+  run_name   = "trial_01"
+)
+res$results   # per-image feature table
+}\if{html}{\out{</div>}}
 }
-\subsection{One-time Python setup}{
 
-Set the environment variable once per session, or add it to \verb{~/.Rprofile}
-so it is loaded automatically every time R starts:
+\subsection{Advanced: developer Python override}{
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{# In ~/.Rprofile  (open with file.edit("~/.Rprofile"))
+Set \code{GRAYLEAFSPOTR_PYTHON} in \verb{~/.Rprofile} to use a specific interpreter
+(e.g. a local \code{rvenv_arm_311}). This is \strong{not needed} for normal use.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# ~/.Rprofile — developer only
 Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/path/to/rvenv_arm_311/bin/python")
 }\if{html}{\out{</div>}}
 }
 }
 \seealso{
-\code{\link[=grayleafspot_analyze]{grayleafspot_analyze()}} for the full-featured interface that
-returns a \code{grayleafspot_run} S3 object with tidy plotting helpers.
+\code{\link[=grayleafspot_analyze]{grayleafspot_analyze()}} for the full-featured interface returning
+a \code{grayleafspot_run} S3 object with plotting helpers.
 }

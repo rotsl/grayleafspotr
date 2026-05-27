@@ -17,13 +17,15 @@ grayleafspot_analyze(
 )
 }
 \arguments{
-\item{input_dir}{Character. Path to the folder containing plate images.}
+\item{input_dir}{Character. Path to the folder containing plate images
+(JPEG, PNG, BMP, TIFF, or WEBP). Images must include a day token in their
+filename (e.g. \verb{*_d04_*} for day 4).}
 
 \item{output_dir}{Character. Base output directory. A timestamped sub-folder
-is created for each run.}
+is created for each run. Defaults to \code{"outputs"}.}
 
 \item{filenames}{Optional character vector. Names of specific image files
-inside \code{input_dir} to analyze.  If \code{NULL}, all images in \code{input_dir} are
+inside \code{input_dir} to analyze. If \code{NULL}, all supported images are
 processed.}
 
 \item{plate_diameter_mm}{Numeric. Known petri dish diameter in mm (default
@@ -37,17 +39,30 @@ directory and deleted after the results are returned.}
 
 \item{verbose}{Logical. Print the saved run path to the console.}
 
-\item{python}{Optional character. Override the Python executable (see
-\code{\link[=grayleafspot_python_executable]{grayleafspot_python_executable()}}).}
+\item{python}{Optional character. Advanced override: path to a specific
+Python executable. Overrides \code{GRAYLEAFSPOTR_PYTHON} and basilisk.}
 
 \item{engine_model}{Character. Must be \code{"localunet"}.}
 }
 \value{
-A \code{grayleafspot_run} object with elements \verb{$run}, \verb{$results}, and
-\verb{$raw_results}.
+A \code{grayleafspot_run} S3 object with elements \verb{$run} (manifest
+metadata), \verb{$results} (per-image data frame), and \verb{$raw_results}.
 }
 \description{
-Calls the bundled Python pipeline (\code{inst/python/pipeline/analysislocal.py})
-via \code{rvenv_arm_311}, performs dish detection and SmallUNet segmentation on
-each image, and returns a \code{grayleafspot_run} object with tidy results.
+Calls the bundled Python pipeline, performs dish detection and SmallUNet
+segmentation on each image, and returns a \code{grayleafspot_run} object with
+tidy results and template plots.
+}
+\details{
+Python dependencies are managed automatically through \code{basilisk}. No manual
+Python environment setup is required for normal use. The first call will
+download and configure the required packages (this may take a few minutes on
+a fresh installation). Subsequent calls use the cached environment.
+
+Developers who maintain a local Python environment can bypass basilisk by
+setting the \code{GRAYLEAFSPOTR_PYTHON} environment variable to the path of
+their Python interpreter; this is not required for normal users.
+}
+\seealso{
+\code{\link[=grayleafspot_run]{grayleafspot_run()}} for a simpler entry point returning raw JSON.
 }
