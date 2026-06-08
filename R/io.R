@@ -169,10 +169,8 @@ read_grayleafspot_results <- function(path) {
 #' @param run_name Optional character. Human-readable run name for the manifest.
 #' @return A `grayleafspot_run` object.
 #' @examples
-#' \donttest{
-#'   run <- example_grayleafspot_results()
-#'   write_grayleafspot_results(run$raw_results, tempdir(), run_name = "demo")
-#' }
+#' run <- example_grayleafspot_results()
+#' write_grayleafspot_results(run$raw_results, tempdir(), run_name = "demo")
 #' @export
 write_grayleafspot_results <- function(results, output_dir, engine = "python-local", engine_model = "packaged-python-pipeline", run_name = NULL) {
   ensure_dir(output_dir)

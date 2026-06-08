@@ -26,7 +26,8 @@ argument, the \code{GRAYLEAFSPOTR_PYTHON} environment variable, the
 \code{grayleafspotr.python} option, and finally \code{python3} / \code{python} from \code{PATH}.
 }
 \examples{
-\donttest{
-  grayleafspot_python_executable()
-}
+tryCatch(
+  grayleafspot_python_executable(),
+  error = function(e) message("Python not found: ", conditionMessage(e))
+)
 }

@@ -62,9 +62,10 @@ grayleafspot_python_env <- function(module_dir = grayleafspot_python_module_dir(
 #'   `"localunet"` is supported.
 #' @return Character string: absolute path to the resolved Python executable.
 #' @examples
-#' \donttest{
-#'   grayleafspot_python_executable()
-#' }
+#' tryCatch(
+#'   grayleafspot_python_executable(),
+#'   error = function(e) message("Python not found: ", conditionMessage(e))
+#' )
 #' @export
 grayleafspot_python_executable <- function(python = NULL, engine_model = "localunet") {
   candidates <- c(
@@ -102,9 +103,7 @@ grayleafspot_python_executable <- function(python = NULL, engine_model = "localu
 #' @param engine_model Character. Currently only `"localunet"` is supported.
 #' @return Logical `TRUE` if the pipeline can run, `FALSE` otherwise.
 #' @examples
-#' \donttest{
-#'   grayleafspot_python_available()
-#' }
+#' grayleafspot_python_available()
 #' @export
 grayleafspot_python_available <- function(python = NULL, engine_model = "localunet") {
   explicit_python <- python %||% Sys.getenv("GRAYLEAFSPOTR_PYTHON", unset = "")

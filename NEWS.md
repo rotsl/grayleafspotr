@@ -1,5 +1,17 @@
 # grayleafspotr News
 
+## grayleafspotr 0.99.2
+
+### Bug fixes
+
+* Replaced `\donttest{}` wrappers with plain runnable code in four man pages
+  (`launch_grayleafspotr`, `write_grayleafspot_results`,
+  `grayleafspot_python_available`, `grayleafspot_python_executable`) so that
+  BiocCheck counts them toward the required 80% runnable-examples threshold.
+  `launch_grayleafspotr` uses an `if (interactive())` guard;
+  `grayleafspot_python_executable` uses `tryCatch()` to handle environments
+  where Python is absent without aborting the check.
+
 ## grayleafspotr 0.99.1
 
 ### Bug fixes

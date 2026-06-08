@@ -8,7 +8,7 @@
 #' @return Called for its side effect. Starts a Shiny app.
 #'
 #' @examples
-#' \donttest{
+#' if (interactive()) {
 #'   launch_grayleafspotr()
 #' }
 #'
