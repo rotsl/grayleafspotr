@@ -16,3 +16,7 @@ A \code{ggplot2} object.
 \description{
 Plot crack coverage and crack count over time
 }
+\examples{
+run <- example_grayleafspot_results()
+plot_stress_remodeling(run)
+}

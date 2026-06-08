@@ -23,3 +23,8 @@ set up lazily on first pipeline run).  When an explicit Python interpreter
 is configured via \code{GRAYLEAFSPOTR_PYTHON} or the \code{python} argument, the
 function probes that interpreter directly.
 }
+\examples{
+\donttest{
+  grayleafspot_python_available()
+}
+}

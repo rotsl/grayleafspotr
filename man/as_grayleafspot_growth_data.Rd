@@ -17,3 +17,7 @@ A \code{\link[tibble:tibble]{tibble::tibble()}} with one row per image.
 Extracts the results table from a \code{grayleafspot_run} object and normalises
 column aliases so that downstream plotting helpers see a consistent schema.
 }
+\examples{
+run <- example_grayleafspot_results()
+as_grayleafspot_growth_data(run)
+}

@@ -25,3 +25,8 @@ Resolves the Python interpreter in this priority order: the \code{python}
 argument, the \code{GRAYLEAFSPOTR_PYTHON} environment variable, the
 \code{grayleafspotr.python} option, and finally \code{python3} / \code{python} from \code{PATH}.
 }
+\examples{
+\donttest{
+  grayleafspot_python_executable()
+}
+}

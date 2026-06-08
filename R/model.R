@@ -14,6 +14,10 @@ MODEL_FILENAME <- "best_area_w_0.7.pt"
 #' @param force Logical. Re-download even if a cached copy already exists.
 #' @param quiet Logical. Suppress progress messages.
 #' @return Invisible character string: absolute path to the downloaded model file.
+#' @examples
+#' \donttest{
+#'   grayleafspot_download_model()
+#' }
 #' @export
 grayleafspot_download_model <- function(force = FALSE, quiet = FALSE) {
   pkg_root <- grayleafspot_package_root()

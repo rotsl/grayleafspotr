@@ -6,6 +6,9 @@
 #' @param x A `grayleafspot_run` object, a plain `data.frame` / `tibble`, or a
 #'   list with a `$results` element.
 #' @return A [tibble::tibble()] with one row per image.
+#' @examples
+#' run <- example_grayleafspot_results()
+#' as_grayleafspot_growth_data(run)
 #' @export
 as_grayleafspot_growth_data <- function(x) {
   if (inherits(x, "grayleafspot_run")) {
@@ -113,6 +116,9 @@ results_to_csv <- function(results) {
 #'   `analysis.json` / `analysis.csv` file.
 #' @return A `grayleafspot_run` object with elements `$run`, `$results`, and
 #'   `$raw_results`.
+#' @examples
+#' dir <- system.file("extdata", "example", package = "grayleafspotr")
+#' run <- read_grayleafspot_results(dir)
 #' @export
 read_grayleafspot_results <- function(path) {
   if (length(path) != 1) {
@@ -162,6 +168,11 @@ read_grayleafspot_results <- function(path) {
 #' @param engine_model Character. Engine-model label stored in the manifest.
 #' @param run_name Optional character. Human-readable run name for the manifest.
 #' @return A `grayleafspot_run` object.
+#' @examples
+#' \donttest{
+#'   run <- example_grayleafspot_results()
+#'   write_grayleafspot_results(run$raw_results, tempdir(), run_name = "demo")
+#' }
 #' @export
 write_grayleafspot_results <- function(results, output_dir, engine = "python-local", engine_model = "packaged-python-pipeline", run_name = NULL) {
   ensure_dir(output_dir)
@@ -196,6 +207,8 @@ write_grayleafspot_results <- function(results, output_dir, engine = "python-loc
 #' needing to run the analysis pipeline.
 #'
 #' @return A `grayleafspot_run` object.
+#' @examples
+#' run <- example_grayleafspot_results()
 #' @export
 example_grayleafspot_results <- function() {
   path <- example_grayleafspot_dir()

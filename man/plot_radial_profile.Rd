@@ -18,3 +18,7 @@ Reads the \code{radialProfile} field from \code{raw_results}. When called with a
 data frame, the function auto-discovers the most recent \code{analysis.json} under
 \verb{outputs/} in the working directory.
 }
+\examples{
+run <- example_grayleafspot_results()
+plot_radial_profile(run)
+}

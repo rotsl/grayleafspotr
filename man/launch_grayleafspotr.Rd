@@ -17,8 +17,8 @@ Opens an interactive dashboard for running analyses, loading saved results,
 and exploring all visualizations provided by the package.
 }
 \examples{
-\dontrun{
-launch_grayleafspotr()
+\donttest{
+  launch_grayleafspotr()
 }
 
 }

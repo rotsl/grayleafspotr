@@ -16,3 +16,7 @@ A \code{ggplot2} object.
 \description{
 Plot relative growth rate and edge roughness
 }
+\examples{
+run <- example_grayleafspot_results()
+plot_growth_roughness(run)
+}

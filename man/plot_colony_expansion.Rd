@@ -17,3 +17,7 @@ A \code{ggplot2} object.
 Draws equivalent colony radius (mm) against time (days) as a line + point
 plot using the \code{ggplot2} theme_minimal style.
 }
+\examples{
+run <- example_grayleafspot_results()
+plot_colony_expansion(run)
+}

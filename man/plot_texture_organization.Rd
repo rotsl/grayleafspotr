@@ -16,3 +16,7 @@ A \code{ggplot2} object.
 \description{
 Plot texture entropy and center-to-edge intensity delta over time
 }
+\examples{
+run <- example_grayleafspot_results()
+plot_texture_organization(run)
+}

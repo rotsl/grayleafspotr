@@ -61,6 +61,10 @@ grayleafspot_python_env <- function(module_dir = grayleafspot_python_module_dir(
 #' @param engine_model Character. Reserved for future use; currently only
 #'   `"localunet"` is supported.
 #' @return Character string: absolute path to the resolved Python executable.
+#' @examples
+#' \donttest{
+#'   grayleafspot_python_executable()
+#' }
 #' @export
 grayleafspot_python_executable <- function(python = NULL, engine_model = "localunet") {
   candidates <- c(
@@ -97,6 +101,10 @@ grayleafspot_python_executable <- function(python = NULL, engine_model = "localu
 #'   environment is assumed available.
 #' @param engine_model Character. Currently only `"localunet"` is supported.
 #' @return Logical `TRUE` if the pipeline can run, `FALSE` otherwise.
+#' @examples
+#' \donttest{
+#'   grayleafspot_python_available()
+#' }
 #' @export
 grayleafspot_python_available <- function(python = NULL, engine_model = "localunet") {
   explicit_python <- python %||% Sys.getenv("GRAYLEAFSPOTR_PYTHON", unset = "")
@@ -268,6 +276,11 @@ grayleafspot_python_run <- function(
 #' @return A `grayleafspot_run` S3 object with elements `$run` (manifest
 #'   metadata), `$results` (per-image data frame), and `$raw_results`.
 #' @seealso [grayleafspot_run()] for a simpler entry point returning raw JSON.
+#' @examples
+#' \donttest{
+#'   img_dir <- system.file("extdata", "testdata", "06FEB", package = "grayleafspotr")
+#'   run <- grayleafspot_analyze(img_dir, output_dir = tempdir())
+#' }
 #' @export
 grayleafspot_analyze <- function(
   input_dir,
@@ -358,6 +371,11 @@ grayleafspot_analyze <- function(
 #'   `$results` (per-image feature records) and `$run` (manifest metadata).
 #' @seealso [grayleafspot_analyze()] for the full-featured interface returning
 #'   a `grayleafspot_run` S3 object with plotting helpers.
+#' @examples
+#' \donttest{
+#'   img_dir <- system.file("extdata", "testdata", "06FEB", package = "grayleafspotr")
+#'   result <- grayleafspot_run(img_dir, tempdir())
+#' }
 #' @export
 grayleafspot_run <- function(
     input_dir,

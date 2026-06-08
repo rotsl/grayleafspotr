@@ -17,3 +17,7 @@ A \code{ggplot2} object.
 Plots eccentricity against crack coverage percentage, with point size
 proportional to colony diameter and colour encoding time (day).
 }
+\examples{
+run <- example_grayleafspot_results()
+plot_shape_vs_stress(run)
+}

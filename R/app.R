@@ -8,8 +8,8 @@
 #' @return Called for its side effect. Starts a Shiny app.
 #'
 #' @examples
-#' \dontrun{
-#' launch_grayleafspotr()
+#' \donttest{
+#'   launch_grayleafspotr()
 #' }
 #'
 #' @export

@@ -63,6 +63,12 @@ Developers who maintain a local Python environment can bypass basilisk by
 setting the \code{GRAYLEAFSPOTR_PYTHON} environment variable to the path of
 their Python interpreter; this is not required for normal users.
 }
+\examples{
+\donttest{
+  img_dir <- system.file("extdata", "testdata", "06FEB", package = "grayleafspotr")
+  run <- grayleafspot_analyze(img_dir, output_dir = tempdir())
+}
+}
 \seealso{
 \code{\link[=grayleafspot_run]{grayleafspot_run()}} for a simpler entry point returning raw JSON.
 }

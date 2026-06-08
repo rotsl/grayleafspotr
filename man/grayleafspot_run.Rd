@@ -59,6 +59,12 @@ Sys.setenv(GRAYLEAFSPOTR_PYTHON = "/path/to/rvenv_arm_311/bin/python")
 }\if{html}{\out{</div>}}
 }
 }
+\examples{
+\donttest{
+  img_dir <- system.file("extdata", "testdata", "06FEB", package = "grayleafspotr")
+  result <- grayleafspot_run(img_dir, tempdir())
+}
+}
 \seealso{
 \code{\link[=grayleafspot_analyze]{grayleafspot_analyze()}} for the full-featured interface returning
 a \code{grayleafspot_run} S3 object with plotting helpers.

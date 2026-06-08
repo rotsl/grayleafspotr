@@ -14,3 +14,6 @@ Returns the small example run shipped with the package under
 \verb{inst/extdata/example/}. Useful for exploring the plotting helpers without
 needing to run the analysis pipeline.
 }
+\examples{
+run <- example_grayleafspot_results()
+}

@@ -6,6 +6,9 @@
 #' @param x A `grayleafspot_run` object, data frame, or list accepted by
 #'   [as_grayleafspot_growth_data()].
 #' @return A `ggplot2` object.
+#' @examples
+#' run <- example_grayleafspot_results()
+#' plot_colony_expansion(run)
 #' @export
 plot_colony_expansion <- function(x) {
   data <- as_grayleafspot_growth_data(x)
@@ -26,6 +29,9 @@ plot_colony_expansion <- function(x) {
 #' @param x A `grayleafspot_run` object or data accepted by
 #'   [as_grayleafspot_growth_data()].
 #' @return A `ggplot2` object.
+#' @examples
+#' run <- example_grayleafspot_results()
+#' plot_growth_roughness(run)
 #' @export
 plot_growth_roughness <- function(x) {
   data <- as_grayleafspot_growth_data(x)
@@ -45,6 +51,9 @@ plot_growth_roughness <- function(x) {
 #' @param x A `grayleafspot_run` object or data accepted by
 #'   [as_grayleafspot_growth_data()].
 #' @return A `ggplot2` object.
+#' @examples
+#' run <- example_grayleafspot_results()
+#' plot_stress_remodeling(run)
 #' @export
 plot_stress_remodeling <- function(x) {
   data <- as_grayleafspot_growth_data(x)
@@ -64,6 +73,9 @@ plot_stress_remodeling <- function(x) {
 #' @param x A `grayleafspot_run` object or data accepted by
 #'   [as_grayleafspot_growth_data()].
 #' @return A `ggplot2` object.
+#' @examples
+#' run <- example_grayleafspot_results()
+#' plot_texture_organization(run)
 #' @export
 plot_texture_organization <- function(x) {
   data <- as_grayleafspot_growth_data(x)
@@ -86,6 +98,9 @@ plot_texture_organization <- function(x) {
 #' @param x A `grayleafspot_run` object or data accepted by
 #'   [as_grayleafspot_growth_data()].
 #' @return A `ggplot2` object.
+#' @examples
+#' run <- example_grayleafspot_results()
+#' plot_shape_vs_stress(run)
 #' @export
 plot_shape_vs_stress <- function(x) {
   data <- as_grayleafspot_growth_data(x)
@@ -105,6 +120,9 @@ plot_shape_vs_stress <- function(x) {
 #' @param x A `grayleafspot_run` object or data accepted by
 #'   [as_grayleafspot_growth_data()].
 #' @return A `ggplot2` object.
+#' @examples
+#' run <- example_grayleafspot_results()
+#' plot_radial_growth_area(run)
 #' @export
 plot_radial_growth_area <- function(x) {
   data <- as_grayleafspot_growth_data(x)
@@ -163,6 +181,9 @@ plot_radial_growth_area <- function(x) {
 #' @param x A `grayleafspot_run` object or data accepted by
 #'   [as_grayleafspot_growth_data()].
 #' @return A `ggplot2` object.
+#' @examples
+#' run <- example_grayleafspot_results()
+#' plot_feature_heatmap(run)
 #' @export
 plot_feature_heatmap <- function(x) {
   data <- as_grayleafspot_growth_data(x)
@@ -201,6 +222,9 @@ plot_feature_heatmap <- function(x) {
 #' @param x A `grayleafspot_run` object, a path to a run directory or
 #'   `analysis.json`, a list of raw results, or a data frame.
 #' @return A `ggplot2` object.
+#' @examples
+#' run <- example_grayleafspot_results()
+#' plot_radial_profile(run)
 #' @export
 plot_radial_profile <- function(x) {
   raw_results <- NULL

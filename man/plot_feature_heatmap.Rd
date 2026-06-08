@@ -16,3 +16,7 @@ A \code{ggplot2} object.
 \description{
 Pearson correlation heatmap of numeric morphology features
 }
+\examples{
+run <- example_grayleafspot_results()
+plot_feature_heatmap(run)
+}

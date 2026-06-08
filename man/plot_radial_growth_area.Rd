@@ -18,3 +18,7 @@ Produces a faceted panel with colony area (mm\eqn{^2}) on one facet and
 radial growth rate (mm/day) on the other.  When each plate appears only once
 in the data, points from all plates are connected in day order.
 }
+\examples{
+run <- example_grayleafspot_results()
+plot_radial_growth_area(run)
+}

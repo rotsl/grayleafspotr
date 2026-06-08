@@ -32,3 +32,9 @@ A \code{grayleafspot_run} object.
 Serialises a list of result records to \code{analysis.json}, \code{analysis.csv}, and
 \code{manifest.json} under \code{output_dir} and returns a \code{grayleafspot_run} object.
 }
+\examples{
+\donttest{
+  run <- example_grayleafspot_results()
+  write_grayleafspot_results(run$raw_results, tempdir(), run_name = "demo")
+}
+}

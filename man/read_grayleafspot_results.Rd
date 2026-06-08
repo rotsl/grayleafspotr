@@ -19,3 +19,7 @@ Loads a run directory (containing \code{analysis.json}, \code{analysis.csv}, and
 \code{manifest.json}) or a single JSON / CSV file and returns a
 \code{grayleafspot_run} object.
 }
+\examples{
+dir <- system.file("extdata", "example", package = "grayleafspotr")
+run <- read_grayleafspot_results(dir)
+}

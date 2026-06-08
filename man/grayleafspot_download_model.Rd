@@ -26,3 +26,8 @@ The function looks for the model in this order:
 \item Downloads from HuggingFace and saves to the user cache directory.
 }
 }
+\examples{
+\donttest{
+  grayleafspot_download_model()
+}
+}
