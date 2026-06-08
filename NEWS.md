@@ -1,5 +1,16 @@
 # grayleafspotr News
 
+## grayleafspotr 0.99.1
+
+### Bug fixes
+
+* Added runnable `@examples` to all 18 exported man pages to satisfy the
+  Bioconductor BiocCheck requirement (>= 80% of pages must have examples).
+  Functions requiring Python or a network connection use `\donttest{}`;
+  pure-R functions use the bundled `example_grayleafspot_results()` data.
+* Changed `\dontrun{}` to `\donttest{}` in `launch_grayleafspotr()` man page
+  (BiocCheck does not count `\dontrun{}` as a runnable example).
+
 ## grayleafspotr 0.99.0
 
 ### Bug fixes
