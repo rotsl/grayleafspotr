@@ -1,5 +1,18 @@
 # grayleafspotr News
 
+## grayleafspotr 0.99.5
+
+### Bug fixes
+
+* Fixed `Pipeline ran but JSON parsing failed` on Windows. The pipeline's
+  stdout on success is a single very long JSON line (`colony_polygon` alone
+  can run to tens of thousands of points per image); `system2()`'s
+  intern-style `stdout = TRUE` capture has a per-line buffer limit on
+  Windows that silently splits such long lines at arbitrary byte offsets,
+  and rejoining the pieces with `"\n"` corrupted the JSON mid-token. Both
+  stdout and stderr are now redirected to files and read back whole, which
+  avoids the line-splitting entirely.
+
 ## grayleafspotr 0.99.4
 
 ### Bug fixes

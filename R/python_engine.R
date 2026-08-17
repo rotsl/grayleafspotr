@@ -73,21 +73,34 @@ grayleafspot_run_python_cli <- function(python_bin, args_vec, module_dir) {
   }, add = TRUE)
   do.call(Sys.setenv, as.list(env_vars))
 
-  # stderr is captured to a separate file rather than merged into `stdout`
-  # (e.g. via stderr = TRUE) because the pipeline's stdout on success is the
-  # JSON payload parsed by the caller; interleaving incidental stderr text
-  # (e.g. a library FutureWarning) into that stream would corrupt the JSON.
+  # Both stdout and stderr are redirected to files rather than captured via
+  # system2()'s intern-style `stdout = TRUE`. On success, stdout is a single
+  # very long JSON line (colony_polygon alone can run to tens of thousands
+  # of points per image); on Windows, intern-based line capture has a
+  # per-line buffer limit that silently splits such long lines at arbitrary
+  # byte offsets, and rejoining the pieces with "\n" then corrupts the JSON
+  # mid-token ("Pipeline ran but JSON parsing failed"). Reading the
+  # complete files back as raw bytes avoids that split entirely. Keeping
+  # stderr in its own file (rather than merged into stdout) also means
+  # incidental stderr text (e.g. a library FutureWarning) can never corrupt
+  # the JSON payload on success.
+  stdout_file <- tempfile("grayleafspotr-python-stdout-")
   stderr_file <- tempfile("grayleafspotr-python-stderr-")
-  on.exit(unlink(stderr_file), add = TRUE)
+  on.exit(unlink(c(stdout_file, stderr_file)), add = TRUE)
 
-  output <- system2(python_bin, args = args_vec, stdout = TRUE, stderr = stderr_file)
-  status <- attr(output, "status")
-  if (!is.null(status) && !identical(status, 0L)) {
-    stderr_text <- tryCatch(readLines(stderr_file, warn = FALSE), error = function(e) character(0))
-    stop("Python pipeline failed (exit status ", status, ").\n",
-         paste(c(output, stderr_text), collapse = "\n"))
+  read_output_file <- function(path) {
+    if (!file.exists(path) || file.info(path)$size == 0) {
+      return("")
+    }
+    trimws(readChar(path, file.info(path)$size, useBytes = TRUE))
   }
-  paste(output, collapse = "\n")
+
+  status <- system2(python_bin, args = args_vec, stdout = stdout_file, stderr = stderr_file)
+  if (!identical(status, 0L)) {
+    stop("Python pipeline failed (exit status ", status, ").\n",
+         paste(c(read_output_file(stdout_file), read_output_file(stderr_file)), collapse = "\n"))
+  }
+  read_output_file(stdout_file)
 }
 
 #' Return the Python executable used by the grayleafspot pipeline
