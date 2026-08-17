@@ -33,12 +33,13 @@ py_ok <- tryCatch(
 
 ## Abstract
 
-Gray leaf spot (GLS) is a fungal disease of maize (*Zea mays*) caused by
-*Cercospora zeae-maydis* and *Cercospora zeicola*. In laboratory settings,
-fungal isolates are grown on petri dishes and photographed at successive
-time points to characterise colony expansion, morphology, and structural
-organisation. Manual measurement of these traits is time-consuming and
-operator-dependent.
+Gray leaf spot (GLS) is a fungal disease caused by the ascomycete
+*Magnaporthe oryzae*, an economically important pathogen best known as the
+causal agent of rice blast and also associated with gray leaf spot on other
+grass hosts. In laboratory settings, fungal isolates are grown on petri
+dishes and photographed at successive time points to characterise colony
+expansion, morphology, and structural organisation. Manual measurement of
+these traits is time-consuming and operator-dependent.
 
 `grayleafspotr` provides a fully automated pipeline for quantitative
 phenotyping of GLS colonies from time-lapse plate photographs. The package
@@ -393,6 +394,19 @@ When `GRAYLEAFSPOTR_PYTHON` is set, the pipeline uses that interpreter
 directly instead of the basilisk-managed environment. See the "Manual Python
 environment setup" section under Development in the package README for how
 to create such an environment.
+
+---
+
+## References
+
+Related datasets and software, by the same author:
+
+* Rohan R (2026). *Time-series Magnaporthe colony images from twelve petri
+  dishes and morphometric analysis results generated using metrics-petri
+  3.0.0*. BioStudies S-BSST3199.
+  <https://www.ebi.ac.uk/biostudies/studies/S-BSST3199>
+* Rohan R (2026). *metrics-petri* [software]. Harvard Dataverse.
+  <https://doi.org/10.7910/DVN/SR2HBR>
 
 ---
 

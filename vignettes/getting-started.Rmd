@@ -28,7 +28,7 @@ py_ok <- tryCatch(
 ## What is grayleafspotr?
 
 `grayleafspotr` automates the quantitative phenotyping of gray leaf spot
-(*Cercospora zeae-maydis*) fungal colonies grown on petri dishes. Given a
+(*Magnaporthe oryzae*) fungal colonies grown on petri dishes. Given a
 folder of plate photographs, the package:
 
 - segments each colony with a bundled SmallUNet deep-learning model,

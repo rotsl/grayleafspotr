@@ -1,6 +1,6 @@
 Package: grayleafspotr
 Title: Quantitative Analysis of Gray Leaf Spot Colonies from Plate Images
-Version: 0.99.3
+Version: 0.99.4
 Authors@R: person(
   given = "Rohan",
   family = "R",
@@ -8,7 +8,7 @@ Authors@R: person(
   role = c("aut", "cre", "cph"),
   comment = c(ORCID = "0009-0005-9225-1775")
  )
-Description: Quantitative phenotyping of gray leaf spot (Cercospora zeae-maydis)
+Description: Quantitative phenotyping of gray leaf spot (Magnaporthe oryzae)
   fungal colonies grown on petri dishes. The package segments colonies from
   time-lapse plate photographs using a bundled SmallUNet deep-learning model,
   extracts morphometric and texture features (area, eccentricity, crack coverage,
@@ -32,7 +32,8 @@ Imports:
   tibble,
   png,
   BiocFileCache,
-  EBImage
+  EBImage,
+  stats
 biocViews: Software, Preprocessing, Visualization, Classification, FeatureExtraction
 BiocType: Software
 Suggests:

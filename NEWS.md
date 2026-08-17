@@ -1,5 +1,31 @@
 # grayleafspotr News
 
+## grayleafspotr 0.99.4
+
+### Bug fixes
+
+* Fixed the Python pipeline failing on Windows (`Python pipeline failed
+  (exit status 2)`). `system2()`'s `env` argument is only honored on Windows
+  for a small set of commands (`R`, `make`) that parse `VAR=value` strings
+  from their own argv; for arbitrary executables such as `python` it was
+  silently ignored there, and those strings were instead passed through as
+  positional arguments, which Python then tried to open as a script file.
+  `PYTHONPATH`/`MPLCONFIGDIR`/`PYTHONUNBUFFERED` are now set on the R
+  process itself (restored on exit) so the child process inherits them
+  identically on every platform.
+* `system2()` calls to the Python pipeline now capture `stderr` together
+  with `stdout` so pipeline failures include the actual Python traceback
+  instead of just an exit status.
+
+### Documentation fixes
+
+* Corrected the causal organism described throughout the package
+  (`DESCRIPTION`, both vignettes) from *Cercospora zeae-maydis* /
+  *Cercospora zeicola* on maize to *Magnaporthe oryzae* — "grayleafspotr" is
+  a package name, not a claim about the maize pathogen complex.
+* Added a References section to the `grayleafspotr-workflow` vignette
+  linking to related datasets and software by the same author.
+
 ## grayleafspotr 0.99.3
 
 ### Breaking changes

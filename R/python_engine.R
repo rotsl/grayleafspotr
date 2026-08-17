@@ -41,10 +41,53 @@ grayleafspot_python_env <- function(module_dir = grayleafspot_python_module_dir(
     module_dir
   }
   c(
-    paste0("PYTHONPATH=", pythonpath),
-    paste0("MPLCONFIGDIR=", file.path(tempdir(), "grayleafspotr-mpl")),
-    "PYTHONUNBUFFERED=1"
+    PYTHONPATH = pythonpath,
+    MPLCONFIGDIR = file.path(tempdir(), "grayleafspotr-mpl"),
+    PYTHONUNBUFFERED = "1"
   )
+}
+
+# Internal: run the Python pipeline CLI with PYTHONPATH/MPLCONFIGDIR set for
+# the child process.
+#
+# Environment variables are set on the R process itself (via Sys.setenv(),
+# restored on exit) rather than through system2()'s `env` argument, because
+# on Windows `env` is only honored for a handful of commands (R, make) that
+# parse VAR=value strings from their own argv; for arbitrary executables
+# such as python it is silently ignored and those strings are instead
+# passed through as positional arguments - which python then tries to open
+# as a script file, failing with exit status 2 ("No such file or
+# directory"). Setting the variables on the R process and letting the child
+# inherit them works identically on every platform.
+grayleafspot_run_python_cli <- function(python_bin, args_vec, module_dir) {
+  env_vars <- grayleafspot_python_env(module_dir)
+  old_values <- Sys.getenv(names(env_vars), unset = NA, names = TRUE)
+  on.exit({
+    for (nm in names(old_values)) {
+      if (is.na(old_values[[nm]])) {
+        Sys.unsetenv(nm)
+      } else {
+        do.call(Sys.setenv, stats::setNames(list(old_values[[nm]]), nm))
+      }
+    }
+  }, add = TRUE)
+  do.call(Sys.setenv, as.list(env_vars))
+
+  # stderr is captured to a separate file rather than merged into `stdout`
+  # (e.g. via stderr = TRUE) because the pipeline's stdout on success is the
+  # JSON payload parsed by the caller; interleaving incidental stderr text
+  # (e.g. a library FutureWarning) into that stream would corrupt the JSON.
+  stderr_file <- tempfile("grayleafspotr-python-stderr-")
+  on.exit(unlink(stderr_file), add = TRUE)
+
+  output <- system2(python_bin, args = args_vec, stdout = TRUE, stderr = stderr_file)
+  status <- attr(output, "status")
+  if (!is.null(status) && !identical(status, 0L)) {
+    stderr_text <- tryCatch(readLines(stderr_file, warn = FALSE), error = function(e) character(0))
+    stop("Python pipeline failed (exit status ", status, ").\n",
+         paste(c(output, stderr_text), collapse = "\n"))
+  }
+  paste(output, collapse = "\n")
 }
 
 #' Return the Python executable used by the grayleafspot pipeline
@@ -165,19 +208,7 @@ grayleafspot_build_args <- function(input_dir, output_dir, filenames,
 
 # Internal: run pipeline using a specific python_bin directly (override path).
 grayleafspot_python_run_direct <- function(python_bin, args_vec, module_dir) {
-  output <- system2(
-    python_bin,
-    args   = args_vec,
-    env    = grayleafspot_python_env(module_dir),
-    stdout = TRUE,
-    stderr = FALSE
-  )
-  status <- attr(output, "status")
-  if (!is.null(status) && !identical(status, 0L)) {
-    stop("Python pipeline failed (exit status ", status, ").\n",
-         paste(output, collapse = "\n"))
-  }
-  paste(output, collapse = "\n")
+  grayleafspot_run_python_cli(python_bin, args_vec, module_dir)
 }
 
 # Internal: run pipeline through the basilisk-managed environment.
@@ -186,19 +217,7 @@ grayleafspot_run_basilisk <- function(args_vec, module_dir) {
     env = grayleafspotr_env,
     fun = function(args_vec, module_dir) {
       python_bin <- reticulate::py_config()$python
-      env_vars <- c(
-        paste0("PYTHONPATH=",   module_dir),
-        paste0("MPLCONFIGDIR=", file.path(tempdir(), "grayleafspotr-mpl")),
-        "PYTHONUNBUFFERED=1"
-      )
-      output <- system2(python_bin, args = args_vec,
-                        env = env_vars, stdout = TRUE, stderr = FALSE)
-      status <- attr(output, "status")
-      if (!is.null(status) && !identical(status, 0L)) {
-        stop("Python pipeline failed (exit status ", status, ").\n",
-             paste(output, collapse = "\n"))
-      }
-      paste(output, collapse = "\n")
+      grayleafspot_run_python_cli(python_bin, args_vec, module_dir)
     },
     args_vec   = args_vec,
     module_dir = module_dir
