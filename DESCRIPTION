@@ -1,11 +1,12 @@
 Package: grayleafspotr
 Title: Quantitative Analysis of Gray Leaf Spot Colonies from Plate Images
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: person(
   given = "Rohan",
   family = "R",
   email = "phonics-tiffs1i@icloud.com",
-  role = c("aut", "cre", "cph")
+  role = c("aut", "cre", "cph"),
+  comment = c(ORCID = "0009-0005-9225-1775")
  )
 Description: Quantitative phenotyping of gray leaf spot (Cercospora zeae-maydis)
   fungal colonies grown on petri dishes. The package segments colonies from
@@ -20,7 +21,7 @@ BugReports: https://github.com/rotsl/grayleafspotr/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Depends:
-  R (>= 4.1)
+  R (>= 4.6.0)
 Imports:
   basilisk,
   reticulate,
@@ -29,8 +30,11 @@ Imports:
   jsonlite,
   readr,
   tibble,
-  png
+  png,
+  BiocFileCache,
+  EBImage
 biocViews: Software, Preprocessing, Visualization, Classification, FeatureExtraction
+BiocType: Software
 Suggests:
   knitr,
   rmarkdown,
@@ -39,10 +43,7 @@ Suggests:
   jpeg,
   tiff,
   testthat (>= 3.0.0),
-  shiny,
-  bslib,
-  bsicons,
-  DT
+  BiocStyle
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

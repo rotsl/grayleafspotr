@@ -158,8 +158,11 @@ analyze_grayleafspot_image <- function(path, plate_diameter_mm = 90) {
     qcStatus = qc_status,
     qcNotes = qc_notes,
     rawAnalysis = list(
-      dish_center = list(x = center_x, y = center_y),
-      dish_radius = dish_radius_px,
+      dish_center = list(
+        x = (center_x / max(width, 1)) * 1000,
+        y = (center_y / max(height, 1)) * 1000
+      ),
+      dish_radius = (dish_radius_px / max(width, 1)) * 1000,
       colony_polygon = lapply(seq_len(nrow(colony_polygon)), function(i) {
         list(x = unname(colony_polygon[i, "x"]), y = unname(colony_polygon[i, "y"]))
       }),

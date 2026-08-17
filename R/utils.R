@@ -185,13 +185,18 @@ mask_to_polygon <- function(mask, scale_to = 1000) {
   old_limit <- getOption("max.contour.segments")
   on.exit(options(max.contour.segments = old_limit), add = TRUE)
   options(max.contour.segments = max(50000, as.integer(old_limit %||% 25000)))
-  contours <- suppressWarnings(
+  contours <- withCallingHandlers(
     grDevices::contourLines(
       x = seq_len(ncol(z)),
       y = seq_len(nrow(z)),
       z = z,
       levels = 0.5
-    )
+    ),
+    warning = function(w) {
+      if (identical(conditionMessage(w), "all z values are equal")) {
+        invokeRestart("muffleWarning")
+      }
+    }
   )
   if (!length(contours)) {
     return(list())
@@ -211,7 +216,7 @@ connected_components <- function(mask, min_size = 1) {
   visited <- matrix(FALSE, nrow(mask), ncol(mask))
   dims <- dim(mask)
   components <- list()
-  directions <- expand.grid(dx = -1:1, dy = -1:1)
+  directions <- expand.grid(dx = c(-1L, 0L, 1L), dy = c(-1L, 0L, 1L))
   directions <- directions[!(directions$dx == 0 & directions$dy == 0), , drop = FALSE]
 
   for (row in seq_len(dims[1])) {

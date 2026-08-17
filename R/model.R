@@ -3,13 +3,14 @@ MODEL_FILENAME <- "best_area_w_0.7.pt"
 
 #' Download the SmallUNet segmentation model
 #'
-#' Fetches `best_area_w_0.7.pt` from HuggingFace and caches it on disk. On
-#' subsequent calls the cached file is returned immediately without re-downloading.
+#' Fetches `best_area_w_0.7.pt` from HuggingFace and caches it using
+#' [BiocFileCache::BiocFileCache()]. On subsequent calls the cached file is
+#' returned immediately without re-downloading.
 #'
 #' The function looks for the model in this order:
 #' 1. `models/best_area_w_0.7.pt` relative to the package root (development).
-#' 2. The per-user R cache directory (`tools::R_user_dir("grayleafspotr", "cache")`).
-#' 3. Downloads from HuggingFace and saves to the user cache directory.
+#' 2. The `BiocFileCache` cache keyed under `grayleafspotr`.
+#' 3. Downloads from HuggingFace and adds it to the cache.
 #'
 #' @param force Logical. Re-download even if a cached copy already exists.
 #' @param quiet Logical. Suppress progress messages.
@@ -27,21 +28,35 @@ grayleafspot_download_model <- function(force = FALSE, quiet = FALSE) {
     return(invisible(local_path))
   }
 
-  cache_dir <- tools::R_user_dir("grayleafspotr", "cache")
-  cache_path <- file.path(cache_dir, MODEL_FILENAME)
-  if (!force && file.exists(cache_path)) {
-    if (!quiet) message("Model found in cache: ", cache_path)
-    return(invisible(cache_path))
+  bfc <- grayleafspot_model_bfc()
+  rid <- BiocFileCache::bfcquery(bfc, MODEL_FILENAME, field = "rname", exact = TRUE)$rid
+
+  if (length(rid) && force) {
+    BiocFileCache::bfcremove(bfc, rid)
+    rid <- character(0)
   }
 
-  dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
-  if (!quiet) message("Downloading SmallUNet model to: ", cache_path, "\n  Source: ", MODEL_URL)
-  utils::download.file(MODEL_URL, destfile = cache_path, mode = "wb", quiet = quiet)
+  if (length(rid)) {
+    cache_path <- BiocFileCache::bfcrpath(bfc, rids = rid)
+    if (!quiet) message("Model found in cache: ", cache_path)
+  } else {
+    if (!quiet) message("Downloading SmallUNet model to BiocFileCache.\n  Source: ", MODEL_URL)
+    cache_path <- BiocFileCache::bfcadd(
+      bfc, rname = MODEL_FILENAME, fpath = MODEL_URL, rtype = "web", download = TRUE
+    )
+  }
+
   if (!file.exists(cache_path)) {
     stop("Model download failed. Check your internet connection and try again.")
   }
   if (!quiet) message("Download complete.")
-  invisible(cache_path)
+  invisible(unname(cache_path))
+}
+
+# Internal: the BiocFileCache instance used to cache the SmallUNet model.
+grayleafspot_model_bfc <- function() {
+  cache_dir <- tools::R_user_dir("grayleafspotr", "cache")
+  BiocFileCache::BiocFileCache(cache_dir, ask = FALSE)
 }
 
 #' Return the path to the SmallUNet model, downloading it if necessary
@@ -58,10 +73,10 @@ grayleafspot_model_path <- function(quiet = FALSE) {
   if (file.exists(local_path)) {
     return(local_path)
   }
-  cache_dir <- tools::R_user_dir("grayleafspotr", "cache")
-  cache_path <- file.path(cache_dir, MODEL_FILENAME)
-  if (file.exists(cache_path)) {
-    return(cache_path)
+  bfc <- grayleafspot_model_bfc()
+  rid <- BiocFileCache::bfcquery(bfc, MODEL_FILENAME, field = "rname", exact = TRUE)$rid
+  if (length(rid)) {
+    return(unname(BiocFileCache::bfcrpath(bfc, rids = rid)))
   }
   grayleafspot_download_model(quiet = quiet)
 }

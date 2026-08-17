@@ -1,5 +1,41 @@
 # grayleafspotr News
 
+## grayleafspotr 0.99.3
+
+### Breaking changes
+
+* Removed the bundled Shiny app (`launch_grayleafspotr()`, `inst/shiny/`) and
+  its deployment infrastructure (`Dockerfile`, `render.yaml`,
+  `.dockerignore`). It was unused legacy functionality; all package
+  functionality remains available through the R API.
+
+### New features
+
+* Added `plot_grayleafspot_overlay()`, which uses `EBImage` to draw the
+  detected dish boundary, colony outline, and crack segments on the source
+  plate photograph, for visual QC of the segmentation pipeline.
+
+### Bioconductor review fixes
+
+* `Depends` bumped to `R (>= 4.6.0)` to match the current Bioconductor devel
+  R pairing; added `BiocType: Software`.
+* Added ORCID to `Authors@R` and an `inst/CITATION` file.
+* `grayleafspot_download_model()` now caches via `BiocFileCache` instead of
+  `tools::R_user_dir()` + `download.file()`.
+* Narrowed two blanket `suppressWarnings()` calls to specifically-matched
+  warnings; renamed an internal function exceeding the 30-character lintr
+  limit; replaced a fixed `-1:1` range with an explicit vector; documented
+  the previously-undocumented internal `example_grayleafspot_dir()`.
+* Vignettes switched to `BiocStyle::html_document`, all chunks labeled,
+  `sessionInfo()` added to `getting-started.Rmd`, and the previously-disabled
+  "analyze your own images" / "reload saved results" chunks now run for real
+  against the bundled 06FEB test images (gated so environments without a
+  working Python/basilisk setup degrade gracefully).
+* README reorganised: Bioconductor installation instructions moved to the
+  top, developer/Python-environment setup consolidated under a "Development"
+  section, and the manual virtual environment setup instructions changed to
+  use a directory outside the package tree.
+
 ## grayleafspotr 0.99.2
 
 ### Bug fixes

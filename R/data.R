@@ -1,3 +1,11 @@
+#' Path to the bundled example run directory
+#'
+#' Resolves the installed location of the small example run shipped under
+#' `inst/extdata/example/` (falling back to the in-source path during
+#' development, before the package has been installed).
+#'
+#' @return A single character path.
+#' @keywords internal
 example_grayleafspot_dir <- function() {
   installed_path <- system.file("extdata", "example", package = "grayleafspotr")
   if (nzchar(installed_path)) {

@@ -22,8 +22,9 @@ test_that("grayleafspot_analyze runs end-to-end on bundled test images", {
 
   model_path <- file.path(grayleafspot_package_root(), "models", "best_area_w_0.7.pt")
   if (!file.exists(model_path)) {
-    cache_model <- file.path(tools::R_user_dir("grayleafspotr", "cache"), "best_area_w_0.7.pt")
-    skip_if_not(file.exists(cache_model), "SmallUNet model not available (run grayleafspot_download_model())")
+    bfc <- grayleafspot_model_bfc()
+    rid <- BiocFileCache::bfcquery(bfc, "best_area_w_0.7.pt", field = "rname", exact = TRUE)$rid
+    skip_if_not(length(rid) > 0, "SmallUNet model not available (run grayleafspot_download_model())")
   }
 
   run <- grayleafspot_analyze(

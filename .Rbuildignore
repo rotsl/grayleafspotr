@@ -16,6 +16,3 @@
 ^NOTICE$
 ^\.positai$
 ^\.claude$
-^Dockerfile$
-^\.dockerignore$
-^render[.]yaml$

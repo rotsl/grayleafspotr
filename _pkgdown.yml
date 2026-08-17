@@ -12,8 +12,8 @@ logo: man/figures/logo.png
 home:
   title: grayleafspotr
   description: >
-    Gray leaf spot analysis from RStudio — SmallUNet segmentation pipeline,
-    tidy results, and template ggplot2 visualisations.
+    Gray leaf spot analysis in R — SmallUNet segmentation pipeline, tidy
+    results, template ggplot2 visualisations, and EBImage-based ROI overlays.
 
 navbar:
   structure:
@@ -55,10 +55,10 @@ reference:
       - plot_feature_heatmap
       - plot_radial_profile
 
-  - title: Shiny app
-    desc: Interactive dashboard for running analyses and exploring results.
+  - title: Visualization
+    desc: Overlay detected regions of interest on the source image.
     contents:
-      - launch_grayleafspotr
+      - plot_grayleafspot_overlay
 
 articles:
   - title: Get started

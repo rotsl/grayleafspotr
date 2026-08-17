@@ -130,8 +130,13 @@ grayleafspot_python_available <- function(python = NULL, engine_model = "localun
     ),
     probe
   )
-  result <- suppressWarnings(
-    system2(python_bin, args = probe, stdout = FALSE, stderr = FALSE)
+  result <- withCallingHandlers(
+    system2(python_bin, args = probe, stdout = FALSE, stderr = FALSE),
+    warning = function(w) {
+      if (identical(conditionMessage(w), "error in running command")) {
+        invokeRestart("muffleWarning")
+      }
+    }
   )
   status <- attr(result, "status")
   identical(if (is.null(status)) result else status, 0L)
@@ -176,7 +181,7 @@ grayleafspot_python_run_direct <- function(python_bin, args_vec, module_dir) {
 }
 
 # Internal: run pipeline through the basilisk-managed environment.
-grayleafspot_python_run_basilisk <- function(args_vec, module_dir) {
+grayleafspot_run_basilisk <- function(args_vec, module_dir) {
   basilisk::basiliskRun(
     env = grayleafspotr_env,
     fun = function(args_vec, module_dir) {
@@ -226,7 +231,7 @@ grayleafspot_python_run <- function(
   json_str <- if (!is.null(explicit_python)) {
     grayleafspot_python_run_direct(explicit_python, args_vec, module_dir)
   } else {
-    grayleafspot_python_run_basilisk(args_vec, module_dir)
+    grayleafspot_run_basilisk(args_vec, module_dir)
   }
 
   parsed <- tryCatch(

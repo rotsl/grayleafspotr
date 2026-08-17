@@ -15,15 +15,16 @@ grayleafspot_download_model(force = FALSE, quiet = FALSE)
 Invisible character string: absolute path to the downloaded model file.
 }
 \description{
-Fetches \code{best_area_w_0.7.pt} from HuggingFace and caches it on disk. On
-subsequent calls the cached file is returned immediately without re-downloading.
+Fetches \code{best_area_w_0.7.pt} from HuggingFace and caches it using
+\code{\link[BiocFileCache:BiocFileCache]{BiocFileCache::BiocFileCache()}}. On subsequent calls the cached file is
+returned immediately without re-downloading.
 }
 \details{
 The function looks for the model in this order:
 \enumerate{
 \item \code{models/best_area_w_0.7.pt} relative to the package root (development).
-\item The per-user R cache directory (\code{tools::R_user_dir("grayleafspotr", "cache")}).
-\item Downloads from HuggingFace and saves to the user cache directory.
+\item The \code{BiocFileCache} cache keyed under \code{grayleafspotr}.
+\item Downloads from HuggingFace and adds it to the cache.
 }
 }
 \examples{

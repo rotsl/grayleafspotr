@@ -19,11 +19,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Rohan R \email{phonics-tiffs1i@icloud.com} [copyright holder]
+\strong{Maintainer}: Rohan R \email{phonics-tiffs1i@icloud.com} (\href{https://orcid.org/0009-0005-9225-1775}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item Rohan R \email{phonics-tiffs1i@icloud.com} [copyright holder]
+  \item Rohan R \email{phonics-tiffs1i@icloud.com} (\href{https://orcid.org/0009-0005-9225-1775}{ORCID}) [copyright holder]
 }
 
 }

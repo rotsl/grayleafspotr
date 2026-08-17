@@ -1,0 +1,21 @@
+citHeader("To cite grayleafspotr in publications, use:")
+
+bibentry(
+  bibtype     = "Manual",
+  title       = "grayleafspotr: Quantitative Analysis of Gray Leaf Spot Colonies from Plate Images",
+  author      = person(
+    given      = "Rohan",
+    family     = "R",
+    email      = "phonics-tiffs1i@icloud.com",
+    role       = c("aut", "cre", "cph"),
+    comment    = c(ORCID = "0009-0005-9225-1775", affiliation = "The Sainsbury Laboratory, Norwich")
+  ),
+  year        = "2026",
+  note        = sprintf("R package version %s", meta$Version),
+  url         = "https://github.com/rotsl/grayleafspotr",
+  textVersion = paste0(
+    "Rohan R (2026). grayleafspotr: Quantitative Analysis of Gray Leaf Spot Colonies ",
+    "from Plate Images. The Sainsbury Laboratory, Norwich. R package version ",
+    meta$Version, ". https://github.com/rotsl/grayleafspotr"
+  )
+)
