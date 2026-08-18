@@ -1,5 +1,11 @@
 # grayleafspotr News
 
+## grayleafspotr 0.99.6
+
+Version bump only, to trigger a fresh Bioconductor build report; no
+functional changes. All CI checks (R CMD check on Linux/macOS/Windows,
+BiocCheck) pass as of 0.99.5.
+
 ## grayleafspotr 0.99.5
 
 ### Bug fixes
