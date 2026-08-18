@@ -1,6 +1,6 @@
 Package: grayleafspotr
 Title: Quantitative Analysis of Gray Leaf Spot Colonies from Plate Images
-Version: 0.99.6
+Version: 0.99.7
 Authors@R: person(
   given = "Rohan",
   family = "R",
@@ -35,7 +35,6 @@ Imports:
   EBImage,
   stats
 biocViews: Software, Preprocessing, Visualization, Classification, FeatureExtraction
-BiocType: Software
 Suggests:
   knitr,
   rmarkdown,

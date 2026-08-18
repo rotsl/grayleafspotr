@@ -1,5 +1,15 @@
 # grayleafspotr News
 
+## grayleafspotr 0.99.7
+
+### Bug fixes
+
+* Removed the `BiocType: Software` DESCRIPTION field. It is documented as
+  optional for a plain Software package (only required for Docker/Workflow
+  submissions), and the current BiocCheck does not recognize it, producing
+  a "Unknown or non-standard DESCRIPTION field(s)" WARNING; since it isn't
+  required, removing it is the simplest fix.
+
 ## grayleafspotr 0.99.6
 
 Version bump only, to trigger a fresh Bioconductor build report; no
