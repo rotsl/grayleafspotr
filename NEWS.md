@@ -1,5 +1,13 @@
 # grayleafspotr News
 
+## grayleafspotr 0.99.14
+
+### Documentation fixes
+
+* Restore the overlay example as runnable. It uses a small temporary PNG and
+  checks that EBImage can decode it before drawing. This satisfies BiocCheck's
+  80% runnable-example requirement without relying on platform JPEG libraries.
+
 ## grayleafspotr 0.99.13
 
 ### Build fixes
